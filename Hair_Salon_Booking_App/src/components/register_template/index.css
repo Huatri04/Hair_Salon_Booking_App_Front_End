@@ -1,4 +1,4 @@
-.authen_template{
+.register_template{
     width: 100vw;
     height: 100vh;
     background-image: url('https://images.pexels.com/photos/705255/pexels-photo-705255.jpeg');
@@ -8,14 +8,11 @@ display: flex;
 align-items: center;
 }
 
-.authen_template__form{
+.register_template__form{
     width: 20vw;
-    height: 40vh;
+    height: 50vh;
     background-color: aliceblue;
 border-radius: 12px;
 padding: 20px;
 margin: 0 auto;
 }
-
-
-
