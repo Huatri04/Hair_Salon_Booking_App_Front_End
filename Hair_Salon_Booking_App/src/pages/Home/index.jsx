@@ -2,17 +2,21 @@ import React from "react";
 import Default_template from "../../components/default_template/index.jsx";
 import "./index.css";
 import { Button } from "antd";
+import { useNavigate } from "react-router-dom";
 function Home() {
+  const navigate = useNavigate();
   return (
     <Default_template>
       <div className="content_container">
         <img
           className="image_market"
-          src="https://copilot.microsoft.com/images/blob?bcid=S3uc5ZsRMIwHMnEKYrWcKYtB7Z0m.....8o"
+          src="https://firebasestorage.googleapis.com/v0/b/hair-d1f00.appspot.com/o/blob%20(1).jpg?alt=media&token=a49b71a9-55f6-4446-9d75-e442e55dedb7"
           alt=""
         />
         <div className="container_button">
-          <Button className="button">Đặt lịch hẹn</Button>
+          <Button onClick={() => navigate("/loginCustomer")}>
+            Đặt lịch hẹn
+          </Button>
         </div>
         <div className="container">
           <h1 className="head_title">Loại dịch vụ:</h1>

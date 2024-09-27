@@ -3,7 +3,7 @@ import "./index.css";
 import Default_template from "../../components/default_template";
 function About() {
   return (
-    <div className="content">
+    <div className="content_intro">
       <h1>Chào mừng bạn đến với Hair Haven!</h1>
       Tại Hair Haven, chúng tôi không chỉ đơn thuần là một tiệm tóc; chúng tôi
       là nơi biến những giấc mơ về kiểu tóc của bạn thành hiện thực. Với sứ mệnh
