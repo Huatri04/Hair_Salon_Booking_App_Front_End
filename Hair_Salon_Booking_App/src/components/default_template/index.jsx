@@ -8,21 +8,31 @@ import {
   Outlet,
   Route,
   Routes,
-  useLocation,
   useNavigate,
+  useLocation,
 } from "react-router-dom";
 import Home from "../../pages/Home";
+
 function Default_template() {
   const { Header, Content, Footer } = Layout;
   const navigate = useNavigate();
-  const [selectedKey, setSelectedKey] = useState([]);
   const location = useLocation();
+  const [selectedKey, setSelectedKey] = useState("");
+
+  useEffect(() => {
+    const savedKey = localStorage.getItem("SelectedKey");
+    if (savedKey) {
+      setSelectedKey(savedKey);
+      navigate(`/${savedKey}`);
+    }
+  }, [navigate]);
 
   useEffect(() => {
     const path = location.pathname.substring(1);
     setSelectedKey(path);
     localStorage.setItem("SelectedKey", path);
   }, [location]);
+
   function handleMenuClick(e) {
     setSelectedKey(e.key);
     localStorage.setItem("SelectedKey", e.key);
@@ -34,8 +44,9 @@ function Default_template() {
       label: <Link to={`/${key}`}> {label}</Link>,
     };
   }
+
   const items = [
-    getItem("Trang chủ", ""),
+    getItem("Trang chủ", "home"),
     getItem("Về chúng tôi", "about"),
     getItem("Liên hệ", "contact"),
   ];
