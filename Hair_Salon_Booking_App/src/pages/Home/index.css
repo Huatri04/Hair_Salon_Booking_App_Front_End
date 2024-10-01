@@ -38,6 +38,7 @@ display: flex;
 justify-content: space-around;
 }
 .container_item{
+    width: 15%;
     display: flex;
     align-items: center;
     flex-direction: column;
