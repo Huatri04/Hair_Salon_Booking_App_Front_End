@@ -3,42 +3,61 @@ import React, { useState, useEffect } from "react";
 import "./index.css";
 import About from "../../pages/About";
 import Contact from "../../pages/Contact";
-import {
-  Link,
-  Outlet,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
-import Home from "../../pages/Home";
-function Default_template() {
+import { useNavigate } from "react-router-dom";
+function Default_template({ children }) {
   const { Header, Content, Footer } = Layout;
+  const [current, setCurrent] = useState([]);
+  const [content, setContent] = useState([]);
   const navigate = useNavigate();
-  const [selectedKey, setSelectedKey] = useState([]);
-  const location = useLocation();
+
+  const items = [
+    { key: "1", label: "Trang chủ" },
+    { key: "2", label: "Về chúng tôi" },
+    { key: "3", label: "Contact" },
+  ];
+
+  const handleClick = (e) => {
+    setCurrent(e.key);
+    switch (e.key) {
+      case "1":
+        setContent(children);
+        localStorage.setItem("currentContent", "1");
+        break;
+      case "2":
+        setContent(<About />);
+        localStorage.setItem("currentContent", "2");
+        break;
+      case "3":
+        setContent(<Contact />);
+        localStorage.setItem("currentContent", "3");
+        break;
+      default:
+        setContent(children);
+        localStorage.setItem("currentContent", "1");
+        break;
+    }
+  };
 
   useEffect(() => {
-    const path = location.pathname.substring(1);
-    setSelectedKey(path);
-    localStorage.setItem("SelectedKey", path);
-  }, [location]);
-  function handleMenuClick(e) {
-    setSelectedKey(e.key);
-    localStorage.setItem("SelectedKey", e.key);
-  }
-
-  function getItem(label, key) {
-    return {
-      key,
-      label: <Link to={`/${key}`}> {label}</Link>,
-    };
-  }
-  const items = [
-    getItem("Trang chủ", ""),
-    getItem("Về chúng tôi", "about"),
-    getItem("Liên hệ", "contact"),
-  ];
+    const savedContent = localStorage.getItem("currentContent");
+    if (savedContent) {
+      switch (savedContent) {
+        case "1":
+          setContent(children);
+          break;
+        case "2":
+          setContent(<About />);
+          break;
+        case "3":
+          setContent(<Contact />);
+          break;
+        default:
+          setContent(children);
+          break;
+      }
+      setCurrent(savedContent);
+    }
+  }, [children]);
 
   return (
     <Layout className="layout">
@@ -55,8 +74,8 @@ function Default_template() {
           className="menu_container"
           theme="light"
           mode="horizontal"
-          selectedKeys={[selectedKey]}
-          onClick={handleMenuClick}
+          selectedKeys={[current]}
+          onClick={handleClick}
           style={{ lineHeight: "64px" }}
           items={items}
         ></Menu>
@@ -68,10 +87,7 @@ function Default_template() {
         </div>
       </Header>
       <Content className="content_container" style={{ padding: "0 50px" }}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-        </Routes>
-        <Outlet />
+        {content}
       </Content>
       <Footer className="footer" style={{ textAlign: "center" }}>
         Address: 47 Hoang Dieu 2, Quan 9, thanh pho Ho Chi Minh
