@@ -1,21 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./index.css";
-
 import { Layout, Menu, theme } from "antd";
-import {
-  Link,
-  Outlet,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Link, Outlet, Route, Routes } from "react-router-dom";
 import Home_admin from "../../pages/Home_admin";
 const { Header, Sider, Content } = Layout;
-const Admin = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const [selectedOption, setSelectedOption] = useState();
+const Manager_page = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -23,15 +12,17 @@ const Admin = () => {
   function getItem(label, key) {
     return {
       key,
-      label: <Link to={`/admin_page/${key}`}> {label}</Link>,
+      label: <Link to={`/manager_page/${key}`}> {label}</Link>,
     };
   }
-
   const items = [
-    getItem("Home", "home_admin"),
-    getItem("Quản lý dịch vụ", "services"),
+    getItem("Quản lý feedback", "feedbacks"),
+    getItem("Quản lý ca làm việc", "feedbacks"),
+    getItem("Quản lý voucher", "feedbacks"),
+    getItem("Quản lý lương nhân viên", "feedbacks"),
+    getItem("Quản lý giao dịch", "feedbacks"),
+    getItem("Hỗ trợ phần mềm", "feedbacks"),
   ];
-
   return (
     <Layout className="layout_container">
       <Sider
@@ -45,7 +36,7 @@ const Admin = () => {
         }}
       >
         <div className="demo-logo-vertical" />
-        <Menu theme="dark" mode="inline" items={items} selectedKeys={""} />
+        <Menu theme="dark" mode="inline" items={items} />
       </Sider>
       <Layout>
         <Header
@@ -77,6 +68,9 @@ const Admin = () => {
               borderRadius: borderRadiusLG,
             }}
           >
+            <Routes>
+              <Route path="/" element={<Home_admin />} />
+            </Routes>
             <Outlet />
           </div>
         </Content>
@@ -84,4 +78,4 @@ const Admin = () => {
     </Layout>
   );
 };
-export default Admin;
+export default Manager_page;
