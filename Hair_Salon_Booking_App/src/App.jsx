@@ -8,7 +8,6 @@ import About from "./pages/About/index.jsx";
 import Contact from "./pages/Contact/index.jsx";
 import Admin from "./components/admin_page/index.jsx";
 import ManageServices from "./pages/ManageServices/index.jsx";
-import Employees from "./pages/ManageEmployees/index.jsx";
 import Home_admin from "./pages/Home_admin/index.jsx";
 function App() {
   const router = createBrowserRouter([
@@ -47,10 +46,6 @@ function App() {
         {
           path: "services",
           element: <ManageServices />,
-        },
-        {
-          path: "employees",
-          element: <Employees />,
         },
       ],
     },

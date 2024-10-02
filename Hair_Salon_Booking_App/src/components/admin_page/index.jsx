@@ -30,8 +30,6 @@ const Admin = () => {
   const items = [
     getItem("Home", "home_admin"),
     getItem("Quản lý dịch vụ", "services"),
-    getItem("Về chúng tôi", "employees"),
-    getItem("Liên hệ", "contact"),
   ];
 
   return (
