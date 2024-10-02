@@ -15,6 +15,8 @@ const Manager_page = () => {
     };
   }
   const items = [
+    getItem("Trang chủ", "home_admin"),
+    getItem("Tài khoản của tôi", "home_admin"),
     getItem("Quản lý feedback", "feedbacks"),
     getItem("Quản lý ca làm việc", "feedbacks"),
     getItem("Quản lý voucher", "feedbacks"),
@@ -35,7 +37,7 @@ const Manager_page = () => {
         }}
       >
         <div className="demo-logo-vertical" />
-        <Menu theme="dark" mode="inline" items={items} />
+        <Menu theme="dark" mode="inline" selectedKeys={null} items={items} />
       </Sider>
       <Layout>
         <Header
