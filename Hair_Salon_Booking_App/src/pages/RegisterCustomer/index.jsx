@@ -2,14 +2,13 @@ import React from "react";
 import { Input, Form, Button } from "antd";
 import "./index.css";
 import Register_template from "../../components/register_template";
-import { Link } from "react-router-dom";
+import api from "../../config/axios";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 function LoginCustomer() {
   const [form] = Form.useForm(); // Create a form instance
-
-  const handleSubmit = (values) => {
-    console.log("Form values:", values);
-    // Handle form submission logic here
-  };
+  const navigate = useNavigate();
+  const handlRegister = () => {};
   return (
     <Register_template>
       <Form
@@ -17,7 +16,7 @@ function LoginCustomer() {
         labelCol={{
           span: 24,
         }}
-        onFinish={handleSubmit}
+        onFinish={handlRegister}
       >
         <Form.Item
           label="Phone Number"
