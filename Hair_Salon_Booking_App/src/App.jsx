@@ -2,6 +2,7 @@ import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Manager_page from "./components/manager_page";
 import Home_admin from "./pages/Home_admin";
+import LoginEmployee from "./pages/LoginEmployee";
 
 function App() {
   const router = createBrowserRouter([
@@ -14,6 +15,10 @@ function App() {
           element: <Home_admin />,
         },
       ],
+    },
+    {
+      path: "loginEmployee",
+      element: <LoginEmployee />,
     },
   ]);
   return <RouterProvider router={router} />;
