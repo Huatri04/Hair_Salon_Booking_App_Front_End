@@ -12,13 +12,10 @@ function LoginEmployee() {
   const handleLogin = async (values) => {
     try {
       const response = await api.post("loginEmployee", values);
-      toast.success("Log in success");
       dispatch(login(response.data));
       console.log(response.data);
-      const { role } = response.data;
-      if (role === "Manager") {
-        navigate("/manager_page/home_admin");
-      }
+
+      navigate("/manager_page/home_employee");
     } catch (err) {
       toast.error(err.response.data);
     }

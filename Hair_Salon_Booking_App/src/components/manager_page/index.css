@@ -8,6 +8,8 @@
 }
 .content_container{
     height: 100%;
+    display: flex;
+    justify-content: center;
 }
 .logo{
     display: flex;
@@ -19,4 +21,7 @@
     width: 40%;
     height: 80%;
     border-radius: 50%;
+}
+.description_container{
+    width: 70%;
 }

@@ -1,12 +1,40 @@
 import React from "react";
 import "./index.css";
-import { Layout, Menu, theme } from "antd";
+import { Descriptions, Layout, Menu, Modal, theme } from "antd";
 import { Link, Outlet, Route, Routes } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/features/userSlice";
+import { useSelector } from "react-redux";
 const { Header, Sider, Content } = Layout;
 const Manager_page = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  const dispatch = useDispatch();
+  const user = useSelector((store) => store.user);
+
+  function handleMenuClick(e) {
+    if (e.key === "loginEmployee") {
+      dispatch(logout());
+    }
+    if (e.key === "employee_account") {
+      <Modal open={true}>
+        <h1>Halo</h1>
+      </Modal>;
+    }
+  }
+  function getItemOpenModal(label, key) {
+    return {
+      key,
+      label,
+    };
+  }
+  function getItemLogOut(label, key) {
+    return {
+      key,
+      label: <Link to={`/${key}`}>{label}</Link>,
+    };
+  }
 
   function getItem(label, key) {
     return {
@@ -15,14 +43,15 @@ const Manager_page = () => {
     };
   }
   const items = [
-    getItem("Trang chủ", "home_admin"),
-    getItem("Tài khoản của tôi", "home_admin"),
+    getItem("Trang chủ", "home_employee"),
+    getItemOpenModal("Tài khoản của tôi", "employee_account"),
     getItem("Quản lý feedback", "feedbacks"),
-    getItem("Quản lý ca làm việc", "feedbacks"),
-    getItem("Quản lý voucher", "feedbacks"),
-    getItem("Quản lý lương nhân viên", "feedbacks"),
-    getItem("Quản lý giao dịch", "feedbacks"),
-    getItem("Hỗ trợ phần mềm", "feedbacks"),
+    getItem("Quản lý ca làm việc"),
+    getItem("Quản lý voucher"),
+    getItem("Quản lý lương nhân viên"),
+    getItem("Quản lý giao dịch"),
+    getItem("Hỗ trợ phần mềm"),
+    getItemLogOut("Đăng xuất", "loginEmployee"),
   ];
   return (
     <Layout className="layout_container">
@@ -37,7 +66,13 @@ const Manager_page = () => {
         }}
       >
         <div className="demo-logo-vertical" />
-        <Menu theme="dark" mode="inline" selectedKeys={null} items={items} />
+        <Menu
+          theme="dark"
+          mode="inline"
+          selectedKeys={null}
+          items={items}
+          onClick={handleMenuClick}
+        />
       </Sider>
       <Layout>
         <Header
@@ -69,6 +104,27 @@ const Manager_page = () => {
               borderRadius: borderRadiusLG,
             }}
           >
+            <Modal open={true} width={900}>
+              <div className="description_container">
+                <Descriptions title="User Info">
+                  <Descriptions.Item label="UserName">
+                    {user.username}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Name">
+                    {user.name}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Email">
+                    {user.email}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Phone Number">
+                    {user.phoneNumber}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Role">
+                    {user.role}
+                  </Descriptions.Item>
+                </Descriptions>
+              </div>
+            </Modal>
             <Outlet />
           </div>
         </Content>
