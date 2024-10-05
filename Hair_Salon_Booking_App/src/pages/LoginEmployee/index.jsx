@@ -14,7 +14,6 @@ function LoginEmployee() {
       const response = await api.post("loginEmployee", values);
       dispatch(login(response.data));
       console.log(response.data);
-
       navigate("/manager_page/home_employee");
     } catch (err) {
       toast.error(err.response.data);

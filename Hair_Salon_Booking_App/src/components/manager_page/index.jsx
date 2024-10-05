@@ -104,7 +104,7 @@ const Manager_page = () => {
               borderRadius: borderRadiusLG,
             }}
           >
-            <Modal open={true} width={900}>
+            <Modal open={false} width={900}>
               <div className="description_container">
                 <Descriptions title="User Info">
                   <Descriptions.Item label="UserName">
