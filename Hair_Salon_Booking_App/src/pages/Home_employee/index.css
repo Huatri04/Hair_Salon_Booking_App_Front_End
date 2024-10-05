@@ -1,0 +1,10 @@
+
+.container_home_admin_page{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.welcome_container{
+    align-items: center;
+    text-align: center;
+}
