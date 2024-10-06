@@ -3,13 +3,30 @@ import Authentication_template from "../../components/authen_template/index.jsx"
 import { Input, Form, Button } from "antd";
 import "./index.css";
 import { Link } from "react-router-dom";
+import api from "../../config/axios.js";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/features/userSlice.js";
 function LoginCustomer() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleLogin = async (values) => {
+    try {
+      const response = await api.post("loginCustomer", values);
+      dispatch(login(response.data));
+      console.log(response.data);
+      navigate("/*");
+    } catch (err) {
+      toast.error(err.response.data);
+    }
+  };
   return (
     <Authentication_template>
-      <Form labelCol={{ span: 24 }}>
+      <Form labelCol={{ span: 24 }} onFinish={handleLogin}>
         <Form.Item
           label="Phone Number"
-          name="username"
+          name="phonenumber"
           rules={[
             {
               required: true,
