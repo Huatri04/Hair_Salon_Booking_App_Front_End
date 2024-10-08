@@ -9,14 +9,37 @@ import CustomerAccountManagememnt from "./pages/CustomerAccountManagement/custom
 import SupportApplicationOfCustomer from "./pages/SupportApplicationOfCustomer/index.jsx";
 import LoginEmployee from "./pages/LoginEmployee/index.jsx";
 import Home_employee from "./pages/Home_employee/index.jsx";
+import Stylist_page from "./components/stylist_page/index.jsx";
+import Listhistorysoftwaresupportapplication from "./pages/List history software support application/index.jsx";
+import Workschedule from "./pages/Workschedule/index.jsx";
+import Listhistorysalary from "./pages/ListHistorySalary/index.jsx";
+
 
 
 function App() {
-  
+
   const router = createBrowserRouter([
     {
       path: "loginEmployee",
       element: <LoginEmployee />,
+    },
+    {
+      path: "stylist_page",
+      element: <Stylist_page />,
+      children: [
+        {
+          path: "listhistorysoftwaresupportapplication",
+          element: < Listhistorysoftwaresupportapplication/>,
+        },
+        {
+          path: "workschedule",
+          element: < Workschedule/>,
+        },
+        {
+          path: "listhistorysalary",
+          element: < Listhistorysalary/>,
+        },
+      ]
     },
     {
       path: "admin_page",
