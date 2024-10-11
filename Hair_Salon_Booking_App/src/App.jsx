@@ -10,7 +10,8 @@ import LoginEmployee from "./pages/LoginEmployee";
 import Feedback from "./pages/FeedbackManagement";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-
+import ShiftManagement from "./pages/ShiftManagement";
+import VoucherProgram from "./pages/VoucherProgram";
 function App() {
   const ProtectRouteAuth = ({ children }) => {
     const user = useSelector((store) => store.user);
@@ -39,6 +40,14 @@ function App() {
         {
           path: "feedbacks",
           element: <Feedback />,
+        },
+        {
+          path: "shiftManagement",
+          element: <ShiftManagement />,
+        },
+        {
+          path: "voucherProgram",
+          element: <VoucherProgram />,
         },
       ],
     },
