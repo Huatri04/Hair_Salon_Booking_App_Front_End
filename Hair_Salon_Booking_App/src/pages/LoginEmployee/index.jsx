@@ -14,11 +14,7 @@ function LoginEmployee() {
       const response = await api.post("loginEmployee", values);
       dispatch(login(response.data));
       console.log(response.data);
-      toast.success("Log in thành công");
       navigate("/manager_page/home_employee");
-      const { token } = response.data;
-      console.log(token);
-      localStorage.setItem("token", token);
     } catch (err) {
       toast.error(err.response.data);
     }

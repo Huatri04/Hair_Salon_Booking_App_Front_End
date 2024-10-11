@@ -1,8 +1,10 @@
 import { Table } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import api from "../../config/axios";
-
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 function Feedback() {
+  const user = useSelector((store) => store.user);
   const [data, setData] = useState([]);
   const columns = [
     {
@@ -11,7 +13,7 @@ function Feedback() {
       key: "feedbackId",
     },
     {
-      title: "Stars",
+      title: "Start",
       dataIndex: "star",
       key: "star",
     },
@@ -23,19 +25,20 @@ function Feedback() {
   ];
   const fetchData = async () => {
     try {
-      const response = await api.get("/feedback?page=0&size=10");
-      console.log(response.data);
-      setData(response.data.content);
+      const response = await api.get("feedback", {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      setData(response.data);
     } catch (err) {
-      console.log(err.response.data);
+      toast.error(err.response.data);
     }
   };
-  useEffect(() => {
-    fetchData();
-  }, []);
+
   return (
     <div>
-      <Table columns={columns} dataSource={data} rowKey={"feedbackId"} />
+      <Table columns={columns} dataSource={data} key={"feedbackID"} />
     </div>
   );
 }
