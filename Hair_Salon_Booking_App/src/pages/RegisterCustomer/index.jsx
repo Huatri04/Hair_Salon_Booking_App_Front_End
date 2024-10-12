@@ -34,7 +34,23 @@ function LoginCustomer() {
         >
           <Input />
         </Form.Item>
-
+        <Form.Item
+          name="name"
+          label="Name"
+          rules={[{ required: true, message: "Please enter your name!" }]}
+        >
+          <Input placeholder="Enter your name" />
+        </Form.Item>
+        <Form.Item
+          name="email"
+          label="Email"
+          rules={[
+            { required: true, message: "Please enter your email!" },
+            { type: "email", message: "The input is not valid email!" },
+          ]}
+        >
+          <Input placeholder="Enter your email" />
+        </Form.Item>
         <Form.Item
           label="Password"
           name="password"
@@ -51,7 +67,6 @@ function LoginCustomer() {
         >
           <Input.Password />
         </Form.Item>
-
         <Form.Item
           label="Confirm Password"
           name="confirm_password"

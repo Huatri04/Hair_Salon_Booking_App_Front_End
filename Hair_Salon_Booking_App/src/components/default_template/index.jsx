@@ -1,8 +1,7 @@
 import { Button, Layout, Menu } from "antd";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./index.css";
-import About from "../../pages/About";
-import Contact from "../../pages/Contact";
+
 import {
   Link,
   Outlet,
