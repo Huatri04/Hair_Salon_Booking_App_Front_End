@@ -10,7 +10,8 @@ import LoginEmployee from "./pages/LoginEmployee";
 import Feedback from "./pages/FeedbackManagement";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-
+import VoucherProgram from "./pages/VoucherProgram";
+import TransactionManagement from "./pages/TransactionManagement";
 function App() {
   const ProtectRouteAuth = ({ children }) => {
     const user = useSelector((store) => store.user);
@@ -40,6 +41,14 @@ function App() {
           path: "feedbacks",
           element: <Feedback />,
         },
+        {
+          path: "voucherProgram",
+          element: <VoucherProgram />,
+        },
+        {
+          path: "transactionManagement",
+          element: <TransactionManagement />,
+        },
       ],
     },
     {
@@ -47,6 +56,7 @@ function App() {
       element: <LoginEmployee />,
     },
   ]);
+
   return <RouterProvider router={router} />;
 }
 

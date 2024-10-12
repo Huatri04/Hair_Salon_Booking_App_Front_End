@@ -47,9 +47,10 @@ const Manager_page = () => {
     getItemOpenModal("Tài khoản của tôi", "employee_account"),
     getItem("Quản lý feedback", "feedbacks"),
     getItem("Quản lý ca làm việc"),
-    getItem("Quản lý voucher"),
-    getItem("Quản lý lương nhân viên"),
-    getItem("Quản lý giao dịch"),
+    getItem("Quản lý voucher", "voucherProgram"),
+    getItem("Quản lý lương cơ bản"),
+    getItem("Quản lý Stylist"),
+    getItem("Quản lý giao dịch", "transactionManagement"),
     getItem("Hỗ trợ phần mềm"),
     getItemLogOut("Đăng xuất", "loginEmployee"),
   ];
