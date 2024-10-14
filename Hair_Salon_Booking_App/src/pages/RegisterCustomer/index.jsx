@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input, Form, Button } from "antd";
 import "./index.css";
 import Register_template from "../../components/register_template";
@@ -8,7 +8,19 @@ import { toast } from "react-toastify";
 function LoginCustomer() {
   const [form] = Form.useForm(); // Create a form instance
   const navigate = useNavigate();
-  const handlRegister = () => {};
+  const [loading, setLoading] = useState(false);
+  const handlRegister = async (values) => {
+    try {
+      setLoading(true);
+      const response = await api.post("register", values);
+      navigate("/loginCustomer");
+      toast.success("Successful register new account");
+    } catch (err) {
+      toast.error(err.response.data);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <Register_template>
       <Form
@@ -20,7 +32,7 @@ function LoginCustomer() {
       >
         <Form.Item
           label="Phone Number"
-          name="username"
+          name="phoneNumber"
           rules={[
             {
               required: true,
@@ -89,7 +101,7 @@ function LoginCustomer() {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={loading}>
             SIGN UP
           </Button>
         </Form.Item>

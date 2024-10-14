@@ -8,17 +8,25 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/features/userSlice.js";
+import { useState } from "react";
 function LoginCustomer() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const handleLogin = async (values) => {
     try {
+      setLoading(true);
       const response = await api.post("loginCustomer", values);
+      toast.success("Log in thanh cong");
       dispatch(login(response.data));
       console.log(response.data);
-      navigate("/*");
+      const { token } = response.data;
+      localStorage.setItem("token", token);
+      navigate("/logged_in");
     } catch (err) {
       toast.error(err.response.data);
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -26,7 +34,7 @@ function LoginCustomer() {
       <Form labelCol={{ span: 24 }} onFinish={handleLogin}>
         <Form.Item
           label="Phone Number"
-          name="phonenumber"
+          name="phoneNumber"
           rules={[
             {
               required: true,
@@ -59,7 +67,7 @@ function LoginCustomer() {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={loading}>
             SIGN IN
           </Button>
         </Form.Item>

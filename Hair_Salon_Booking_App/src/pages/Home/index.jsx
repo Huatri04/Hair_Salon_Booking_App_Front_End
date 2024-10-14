@@ -13,7 +13,13 @@ function Home() {
         alt=""
       />
       <div className="container_button">
-        <Button onClick={() => navigate("/loginCustomer")}>Đặt lịch hẹn</Button>
+        <Button
+          color="default"
+          variant="solid"
+          onClick={() => navigate("/loginCustomer")}
+        >
+          Đặt lịch hẹn
+        </Button>
       </div>
       <div className="container">
         <h1 className="head_title">Loại dịch vụ:</h1>
