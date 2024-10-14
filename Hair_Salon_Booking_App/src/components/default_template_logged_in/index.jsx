@@ -88,7 +88,7 @@ function Default_template_logged_in() {
           <Avatar onClick={showDrawer} size="large" icon={<UserOutlined />} />
         </div>
       </Header>
-      <Drawer title={user.name} onClose={onClose} open={open}>
+      <Drawer onClose={onClose} open={open}>
         <Menu
           theme="light"
           style={{
