@@ -3,7 +3,50 @@ import { toast } from "react-toastify";
 import api from "../../config/axios";
 import { Button, Form, Input, Modal, Pagination, Table } from "antd";
 import "./index.css";
+import { PlusOutlined } from "@ant-design/icons";
+import { Image, Upload } from "antd";
+import uploadFile from "../../utils/file";
+import { render } from "@testing-library/react";
+
+const getBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+
 function SoftwareSupportApplication() {
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [fileList, setFileList] = useState([]);
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setPreviewImage(file.url || file.preview);
+    setPreviewOpen(true);
+  };
+  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+  const uploadButton = (
+    <button
+      style={{
+        border: 0,
+        background: "none",
+      }}
+      type="button"
+    >
+      <PlusOutlined />
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </button>
+  );
+
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const { TextArea } = Input;
@@ -50,6 +93,14 @@ function SoftwareSupportApplication() {
         return date.toLocaleDateString();
       },
     },
+    {
+      title: "Image",
+      dataIndex: "img",
+      key: "img",
+      render: (img) => {
+        return <img src={img} alt="" width={200} />;
+      },
+    },
   ];
 
   useEffect(() => {
@@ -61,6 +112,13 @@ function SoftwareSupportApplication() {
   };
 
   const handleFinish = async (values) => {
+    if (fileList.length > 0) {
+      const file = fileList[0];
+      console.log(file);
+      const url = await uploadFile(file.originFileObj);
+      console.log(url);
+      values.img = url;
+    }
     try {
       setLoading(true);
       const response = await api.post("softwareSupportApplication", values);
@@ -98,12 +156,37 @@ function SoftwareSupportApplication() {
             label="Description:"
             name="description"
             labelCol={{ span: 24 }}
-            onFinish={handleFinish} // Handle form submission
           >
             <TextArea rows={4} placeholder="Enter your text here" />
           </Form.Item>
+
+          <Form.Item label="Image" name="img">
+            <Upload
+              action="https://api.allorigins.win/get?url=https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+              listType="picture-card"
+              fileList={fileList}
+              onPreview={handlePreview}
+              onChange={handleChange}
+            >
+              {fileList.length >= 8 ? null : uploadButton}
+            </Upload>
+          </Form.Item>
+          {previewImage && (
+            <Image
+              wrapperStyle={{
+                display: "none",
+              }}
+              preview={{
+                visible: previewOpen,
+                onVisibleChange: (visible) => setPreviewOpen(visible),
+                afterOpenChange: (visible) => !visible && setPreviewImage(""),
+              }}
+              src={previewImage}
+            />
+          )}
         </Form>
       </Modal>
+
       <Table dataSource={data} columns={columns} pagination={false} />
       <div className="page_container">
         <Pagination
