@@ -42,13 +42,6 @@ function Default_template_logged_in() {
     localStorage.setItem("SelectedKey", e.key);
   }
 
-  function getItemLogOut(label, key) {
-    return {
-      key,
-      label: <Link to={`/${key}`}>{label}</Link>,
-    };
-  }
-
   function getItem(label, key) {
     return {
       key,
@@ -66,7 +59,7 @@ function Default_template_logged_in() {
     getItem("Lịch sử tỏa sáng", "logged_in/historyOfServices"),
     getItem("Điểm trung thành", "logged_in/loyalPoints"),
     getItem("Hỗ trợ phần mềm", "logged_in/softwareSupportApplication"),
-    getItemLogOut("Đăng xuất", ""),
+    getItem("Đăng xuất", ""),
   ];
   const items = [
     getItem("Trang chủ", "logged_in"),
@@ -75,6 +68,7 @@ function Default_template_logged_in() {
   ];
 
   function handleDrawerClick(e) {
+    onClose();
     if (e.key === "") {
       dispatch(logout());
     }

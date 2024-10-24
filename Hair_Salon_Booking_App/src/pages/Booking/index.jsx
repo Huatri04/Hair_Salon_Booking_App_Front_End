@@ -152,8 +152,9 @@ function BookingAppointment() {
   }, [date]);
   const fetchStylists = async () => {
     try {
-      const response = await api.get("stylist");
-      setStylists(response.data);
+      const response = await api.get("stylist?page=0&size=10");
+      setStylists(response.data.content);
+      console.log(response.data.content); // Log the content to inspect
     } catch (err) {
       toast.error(err.response.data);
     }

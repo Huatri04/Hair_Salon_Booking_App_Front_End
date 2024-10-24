@@ -56,12 +56,9 @@ const Product = ({ product }) => {
 
   return (
     <div className="product">
-      <img
-        src="https://firebasestorage.googleapis.com/v0/b/hair-d1f00.appspot.com/o/theme-park-177148_960_720%20(1).jpg?alt=media&token=87cd9707-4868-4b89-bd7d-141fbebe434d"
-        alt=""
-      />
+      <img src={product.image} alt="" />
       <h3>{product.name}</h3>
-      <p></p>
+      <p>{product.description}</p>
       <p>Price: {product.cost}</p>
       <p>Thời gian phục vụ: {product.timeOfService} minutes</p>
       <center>
