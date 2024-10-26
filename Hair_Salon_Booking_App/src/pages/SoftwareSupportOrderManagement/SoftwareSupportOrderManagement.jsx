@@ -2,6 +2,7 @@
 import { Table } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+<<<<<<< Updated upstream
 
 
 function SoftwareSupportOrderManagement() {
@@ -26,10 +27,31 @@ function SoftwareSupportOrderManagement() {
   //[]: dependency array
   useEffect(() => {
   fethOder();
+=======
+import api from '../../config/axios';
+import { toast } from 'react-toastify';
+
+function SoftwareSupportOrderManagement() {
+
+  const [oders, setOrders] = useState([]);
+
+  const fetchOrder = async () => {
+    try {
+      const response = await api.get("/softwareSupportApplication/employees?page=0&size=10");
+      setOrders(response.data.content);
+    } catch (error) {
+      toast.error(error.response.data)
+    }
+  };
+  //[]: dependency array
+  useEffect(() => {
+  fetchOrder();
+>>>>>>> Stashed changes
   },[]);
 
   const columns = [
     {
+<<<<<<< Updated upstream
       title: "Tên nhân viên gửi đơn",
       dataIndex: "Tên nhân viên gửi đơn",
       key: "Tên nhân viên gửi đơn",
@@ -47,12 +69,46 @@ function SoftwareSupportOrderManagement() {
     
   ];
  
+=======
+      title: "ID",
+      dataIndex: "softwareSupportApplicationId",
+      key: "softwareSupportApplicationId",
+    },
+    {
+      title: "Tên nhân viên gửi đơn",
+      dataIndex: "employee.name",
+      key: "employee.name",
+      render: (text, record) => record.employee.name,
+    },
+    {
+      title: "Mô tả",
+      dataIndex: "description",
+      key: "description",
+    },
+    {
+      title: "Ngày tạo",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (text, record) => {
+        const date = new Date(record.createdAt);
+        return date.toLocaleDateString();
+    },
+    }
+    
+  ];
+  
+
+>>>>>>> Stashed changes
 return(
     
     <div>
       <h1>Software Support Order Management</h1>
      
+<<<<<<< Updated upstream
        <Table columns={columns} dataSource={oders}/>
+=======
+       <Table key={"softwareSupportApplicationId"} columns={columns} dataSource={oders}/>
+>>>>>>> Stashed changes
       
        </div>  
 )

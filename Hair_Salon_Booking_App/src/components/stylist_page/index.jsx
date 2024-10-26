@@ -1,76 +1,45 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./index.css";
-<<<<<<< Updated upstream
-
 import { Layout, Menu, theme } from "antd";
-import {
-  Link,
-  Outlet,
- 
-} from "react-router-dom";
-const { Header, Sider, Content } = Layout;
-const Admin = () => {
-
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
-
-=======
-import { Layout, Menu, theme } from "antd";
-import { Link, Outlet,} from "react-router-dom";
+import { Link, Outlet, Route, Routes } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/features/userSlice";
 const { Header, Sider, Content } = Layout;
-const Admin = () => {
+const Stylist_page = () => {
   const dispatch = useDispatch();
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   function getItemLogOut(label, key) {
-    return {
+  return{
       key,
-      label: <Link to={`/${key}`}>{label}</Link>,
-    };
-    
-  }
-  function handleMenuClick(e) {
-    if (e.key === "loginEmployee") {
-      dispatch(logout());
-    }}
->>>>>>> Stashed changes
-  function getItem(label, key) {
-    return {
-      key,
-      label: <Link to={`/admin_page/${key}`}> {label}</Link>,
+      label: <Link to={`/${key}`}> {label}</Link>,
     };
   }
+function handleMenuClick(e) {
+  if (e.key === "loginEmployee") {
+    dispatch(logout());
+  }}
+function getItem(label, key) {
+  return {
+    key,
+    label: <Link to={`/stylist_page/${key}`}> {label}</Link>,
+  };
+}
 
   const items = [
-<<<<<<< Updated upstream
-    getItem("Home", "home_admin"),
-    getItem("Quản lý dịch vụ", "services"),
-    getItem("Quản lí nhân viên ", "employee"),
-    getItem("Quản lí đơn hỗ trợ phần mềm ", "SoftwareSupportOrderManagement"),
-    getItem("Quản lí khách hàng  ", "CustomerAccountManagememnt"),
-    getItem("Quản lí phần mềm  ", "SupportApplicationOfCustomer"),
-=======
-    getItem("Home", "Home_employee"),
-    getItem("Quản lý dịch vụ", "services"),
-    getItem("Quản lí nhân viên ", "employee"),
-    getItem("Hỗ trợ phần mềm (nhân viên) ", "SoftwareSupportOrderManagement"),
-    getItem("Quản lí khách hàng  ", "CustomerAccountManagememnt"),
-    getItem("Hỗ trợ phần mềm (khách hàng) ", "SupportApplicationOfCustomer"),
+    getItem("Home","Home_employee"),
+    getItem("Quản lý danh sách lịch sử phần mềm hỗ trợ ứng dụng", "listhistorysoftwaresupportapplication"),
+    getItem("Quản lý lịch trình làm việc", "workschedule"),
+    getItem("Quản lý lịch sử danh sách lương", "listhistorysalary"),
+    getItem("Quản lý lịch hẹn", "appointmentmanagement"),
     getItemLogOut("Đăng xuất", "loginEmployee"),
->>>>>>> Stashed changes
-  ];
 
+  ];
   return (
     <Layout className="layout_container">
       <Sider
-<<<<<<< Updated upstream
-=======
-        width={250} 
->>>>>>> Stashed changes
+      width={400} 
         breakpoint="lg"
         collapsedWidth="0"
         onBreakpoint={(broken) => {
@@ -81,12 +50,7 @@ const Admin = () => {
         }}
       >
         <div className="demo-logo-vertical" />
-<<<<<<< Updated upstream
-        <Menu theme="dark" mode="inline" items={items} selectedKeys={""} />
-=======
         <Menu theme="dark" mode="inline" items={items} selectedKeys={""} onClick={handleMenuClick} />
-        
->>>>>>> Stashed changes
       </Sider>
       <Layout>
         <Header
@@ -118,6 +82,7 @@ const Admin = () => {
               borderRadius: borderRadiusLG,
             }}
           >
+            
             <Outlet />
           </div>
         </Content>
@@ -125,4 +90,4 @@ const Admin = () => {
     </Layout>
   );
 };
-export default Admin;
+export default Stylist_page;

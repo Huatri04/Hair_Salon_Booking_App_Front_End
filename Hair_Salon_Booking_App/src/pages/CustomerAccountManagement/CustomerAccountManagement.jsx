@@ -2,11 +2,16 @@
 import { Table } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+<<<<<<< Updated upstream
+=======
+import api from '../../config/axios';
+>>>>>>> Stashed changes
 
 
 function CustomerAccountManagememnt() {
   const [accounts, setAccounts ] = useState([]);
  
+<<<<<<< Updated upstream
   const api = "https://66f55c659aa4891f2a24f185.mockapi.io/Employee";
   const fethAccount = async () =>{
     // lấy dữ liệu từ bach-end
@@ -21,6 +26,20 @@ function CustomerAccountManagememnt() {
     setAccounts(reponse.data);
 
     //GET => Lấy dữ liệu 
+=======
+  
+  const fethAccount = async () => {
+    try {
+      const response = await api.get("/ProfileCustomer/0896986223");
+      console.log(response.data);
+  
+      // Đảm bảo dữ liệu luôn là mảng
+      const data = Array.isArray(response.data) ? response.data : [response.data];
+      setAccounts(data);
+    } catch (error) {
+      console.error("Error fetching account:", error);
+    }
+>>>>>>> Stashed changes
   };
   //[]: dependency array
   useEffect(() => {
@@ -29,6 +48,7 @@ function CustomerAccountManagememnt() {
 
   const columns = [
     {
+<<<<<<< Updated upstream
       title: "Tên khách hàng",
       dataIndex: "Tên khách hàng",
       key: "Tên khách hàng",
@@ -40,6 +60,44 @@ function CustomerAccountManagememnt() {
     },
     
     
+=======
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+    },
+    {
+      title: "CustomerName",
+      dataIndex: "customerName",
+      key: "customerName",
+    },
+    {
+      title: "PhoneNumber",
+      dataIndex: "phoneNumber",
+      key: "phoneNumber",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Password",
+      dataIndex: "password",
+      key: "password",
+      render: (text) => (
+        <span>{text}</span> // Add visibility toggle logic here if needed
+      ),
+    },
+    {
+      title: "Ngày tạo",
+      dataIndex: "creatAt",
+      key: "creatAt",
+      render: (text, record) => {
+        const date = new Date(record.creatAt);
+        return date.toLocaleDateString();
+    },
+    }
+>>>>>>> Stashed changes
   ];
  
 return(
