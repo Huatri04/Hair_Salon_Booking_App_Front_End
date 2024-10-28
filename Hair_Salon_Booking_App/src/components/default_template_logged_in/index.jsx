@@ -76,7 +76,6 @@ function Default_template_logged_in() {
 
   function handleDrawerClick(e) {
     if (e.key === "") {
-      dispatch(resetCart());
       dispatch(logout());
     }
   }

@@ -12,6 +12,7 @@ import LoyalPoint from "./pages/LoyalPoints/index.jsx";
 import BookingAppointment from "./pages/Booking/index.jsx";
 import SoftwareSupportApplication from "./components/SoftwareSupportApplication/index.jsx";
 import BookingService from "./pages/BookingService/indes.jsx";
+import BookingSuccess from "./pages/BookingSuccess/index.jsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -59,6 +60,10 @@ function App() {
           element: <About />,
         },
         {
+          path: "loyalPoints",
+          element: <LoyalPoint />,
+        },
+        {
           path: "contact",
           element: <Contact />,
         },
@@ -71,8 +76,8 @@ function App() {
           element: <HistoryServices />,
         },
         {
-          path: "loyalPoints",
-          element: <LoyalPoint />,
+          path: "bookSuccessful",
+          element: <BookingSuccess />,
         },
       ],
     },

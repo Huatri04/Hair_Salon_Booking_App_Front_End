@@ -11,16 +11,17 @@ import {
   Tag,
 } from "antd";
 import "./index.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { CheckCircleOutlined } from "@ant-design/icons";
 import api from "../../config/axios";
 import { toast } from "react-toastify";
 import "./index.scss";
 import moment from "moment";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { resetCart } from "../../redux/features/cartSlide";
 
-const StylistCard = ({ id, level, name, image, selected, onSelect }) => (
+const StylistCard = ({ id, level, name, image, selected, onSelect, fee }) => (
   <Card
     className="stylist"
     cover={
@@ -38,7 +39,15 @@ const StylistCard = ({ id, level, name, image, selected, onSelect }) => (
       height: "200px", // Set fixed height
     }}
   >
-    <Card.Meta title={name} description={<>Stylist level: {level}</>} />
+    <Card.Meta
+      title={name}
+      description={
+        <>
+          Stylist level: {level} <br />
+          Stylist Fee: {fee}
+        </>
+      }
+    />
     {selected && (
       <CheckCircleOutlined
         style={{
@@ -59,17 +68,23 @@ function BookingAppointment() {
   const [showStylists, setShowStylists] = useState(false);
   const currentDate = moment().format("YYYY-MM-DD");
   const nextDate = moment().add(1, "days").format("YYYY-MM-DD");
+
+  const [date, setDate] = useState(currentDate);
+
   const cart = useSelector((store) => store.cart || []);
   const [discountCodes, setDiscountCodes] = useState([]);
+
+  const dispatch = useDispatch();
 
   const [total, setTotal] = useState(0); // Total items for pagination
   const [currentPage, setCurrentPage] = useState(1); // Current page
   const [pageSize, setPageSize] = useState(2); // Page size
-
+  const navigate = useNavigate();
   const [fixedTimeslots, setFixedTimeslots] = useState([
     { time: "07:00", booked: true },
     { time: "08:00", booked: true },
     { time: "09:00", booked: true },
+    { time: "10:00", booked: true },
     { time: "11:00", booked: true },
     { time: "12:00", booked: true },
     { time: "13:00", booked: true },
@@ -82,12 +97,22 @@ function BookingAppointment() {
     { time: "20:00", booked: true },
   ]);
   const [selectedSlot, setSelectedSlot] = useState(null);
-
+  const [stylistID, setStylistID] = useState("Để hệ thống tự chọn giúp bạn");
+  const [loading, setLoading] = useState(false);
   const handleSelect = (id) => {
     setSelectedStylist(id);
     form.setFieldsValue({ stylistId: id });
-    fetchSlotStylist(id);
+    setStylistID(id);
   };
+
+  useEffect(() => {
+    if (stylistID === "Để hệ thống tự chọn giúp bạn") {
+      fetchAvailableTimes();
+    } else {
+      fetchSlotStylist(stylistID);
+    }
+  }, [stylistID]);
+
   const fetchCode = async (page = 1, size = 2) => {
     try {
       const response = await api.get(
@@ -101,7 +126,7 @@ function BookingAppointment() {
   };
   const fetchSlotStylist = async (id) => {
     try {
-      const values = { stylistId: id, date: currentDate };
+      const values = { stylistId: id, date: date };
       const response = await api.post("handmade", values);
       const apiAvailableTimes = response.data;
       console.log(apiAvailableTimes);
@@ -114,7 +139,17 @@ function BookingAppointment() {
       toast.error(err.response.data);
     }
   };
-
+  const handleDateChange = (value) => {
+    console.log(value);
+    setDate(value);
+  };
+  useEffect(() => {
+    if (stylistID === "Để hệ thống tự chọn giúp bạn") {
+      fetchAvailableTimes();
+    } else {
+      fetchSlotStylist(stylistID);
+    }
+  }, [date]);
   const fetchStylists = async () => {
     try {
       const response = await api.get("stylist");
@@ -126,8 +161,7 @@ function BookingAppointment() {
 
   const fetchAvailableTimes = async () => {
     try {
-      console.log(currentDate);
-      const response = await api.get(`system/${currentDate}`);
+      const response = await api.get(`system/${date}`);
       const apiAvailableTimes = response.data;
 
       const updatedSlots = fixedTimeslots.map((slot) => ({
@@ -148,22 +182,36 @@ function BookingAppointment() {
       form.setFieldsValue({ startHour: time });
     }
   };
-
   const handleFinish = async (values) => {
-    console.log(values);
-    const { startHour, date, serviceIdList, stylistId, discountCode } = values;
-    if (stylistId === "Để hệ thống tự chọn giúp bạn") {
-      try {
+    try {
+      console.log(values);
+      setLoading(true);
+      const { startHour, date, serviceIdList, stylistId, discountCode } =
+        values;
+      if (stylistId === "Để hệ thống tự chọn giúp bạn") {
         const valuesSend = { startHour, date, serviceIdList, discountCode };
         const response = await api.post("appointment/system", valuesSend);
+        localStorage.setItem("booking", JSON.stringify(response.data));
+        dispatch(resetCart());
         toast.success("Tao lich hen thanh cong");
-      } catch (err) {
-        toast.error(err.response.data);
+        navigate("/logged_in/bookSuccessful");
+      } else {
+        const response = await api.post("appointment", values);
+        localStorage.setItem("booking", JSON.stringify(response.data));
+        dispatch(resetCart());
+        toast.success("Tao lich hen thanh cong");
+        navigate("/logged_in/bookSuccessful");
       }
+    } catch (err) {
+      toast.error(err.response.data);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleChange = (value) => {
+    setStylistID(value);
+
     if (value === "stylistChoose") {
       setShowStylists(true);
       if (stylists.length > 0) {
@@ -194,7 +242,11 @@ function BookingAppointment() {
   };
   return (
     <div className="content_booking">
-      <Form form={form} onFinish={handleFinish}>
+      <Form
+        className="form_booking_container"
+        form={form}
+        onFinish={handleFinish}
+      >
         <Form.Item
           name="serviceIdList"
           rules={[{ required: true, message: "Please select a service" }]}
@@ -237,6 +289,7 @@ function BookingAppointment() {
                 level={stylist.stylistLevel}
                 name={stylist.name}
                 image={stylist.image}
+                fee={stylist.stylistSelectionFee}
                 selected={stylist.id === selectedStylist}
                 onSelect={handleSelect}
               />
@@ -251,6 +304,7 @@ function BookingAppointment() {
               { value: currentDate, label: currentDate },
               { value: nextDate, label: nextDate },
             ]}
+            onSelect={handleDateChange}
           />
         </Form.Item>
         <Form.Item
@@ -320,19 +374,23 @@ function BookingAppointment() {
                 </List.Item>
               )}
             />
-            <div className="page_container">
-              <Pagination
-                current={currentPage}
-                pageSize={2}
-                total={total}
-                onChange={handleTableChange} // Handle pagination change
-              />
-            </div>
           </div>
         </div>
-        <Form.Item>
-          <Button htmlType="submit">Chốt lịch hẹn</Button>
-        </Form.Item>
+        <div className="foot-container">
+          <Form.Item>
+            <Button loading={loading} htmlType="submit">
+              Chốt lịch hẹn
+            </Button>
+          </Form.Item>
+          <div className="page_container">
+            <Pagination
+              current={currentPage}
+              pageSize={2}
+              total={total}
+              onChange={handleTableChange} // Handle pagination change
+            />
+          </div>
+        </div>
       </Form>
     </div>
   );
