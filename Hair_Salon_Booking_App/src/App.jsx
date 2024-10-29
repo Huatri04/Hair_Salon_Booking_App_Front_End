@@ -6,19 +6,6 @@ import EmployeeManagement from "./pages/EmployeeMangament/EmployeeManagement.jsx
 import SoftwareSupportOrderManagement from "./pages/SoftwareSupportOrderManagement/SoftwareSupportOrderManagement.jsx";
 import ServiceManagement from "./pages/ServiceManagement/ServiceManagement.jsx";
 import CustomerAccountManagememnt from "./pages/CustomerAccountManagement/customerAccountManagement.jsx";
-<<<<<<< Updated upstream
-import SupportApplicationOfCustomer from "./pages/SupportApplicationOfCustomer/index.jsx";
-import LoginEmployee from "./pages/LoginEmployee/index.jsx";
-import Home_employee from "./pages/Home_employee/index.jsx";
-
-
-function App() {
-  
-  const router = createBrowserRouter([
-    {
-      path: "loginEmployee",
-      element: <LoginEmployee />,
-=======
 import SupportApplicationOfCustomer from "./pages/SupportApplicationOfCustomer/SupportApplicationOfCustomer.jsx";
 import LoginEmployee from "./pages/LoginEmployee/index.jsx";
 import Home_employee from "./pages/Home_employee/index.jsx";
@@ -94,7 +81,6 @@ function App() {
           element: < AppointmentManagement/>,
         },
       ]
->>>>>>> Stashed changes
     },
     {
       path: "admin_page",
