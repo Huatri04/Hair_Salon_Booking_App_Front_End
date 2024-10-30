@@ -11,22 +11,21 @@ function LoginEmployee() {
   const navigate = useNavigate();
   const handleLogin = async (values) => {
     try {
-
-  const response = await api.post("/loginEmployee", values);
-  const { token, role } = response.data;
-  dispatch(login(response.data));
-  localStorage.setItem("token", token);
-  if (role === "Admin") {
-    navigate("/admin_page/home_employee/");
-  } else if (role === "Stylist") {
-    navigate("/stylist_page/home_employee/");
-  } else if (role === "Staff") {
-    navigate("/staff_page/home_employee/");
-  }
-} catch (err) {
-  toast.error(err.response.data);
-}
-};
+      const response = await api.post("/loginEmployee", values);
+      const { token, role } = response.data;
+      dispatch(login(response.data));
+      localStorage.setItem("token", token);
+      if (role === "Admin") {
+        navigate("/admin_page/home_employee/");
+      } else if (role === "Stylist") {
+        navigate("/stylist_page/home_employee/");
+      } else if (role === "Staff") {
+        navigate("/staff_page/home_employee/");
+      }
+    } catch (err) {
+      toast.error(err.response.data);
+    }
+  };
   return (
     <Authentication_template>
       <Form labelCol={{ span: 24 }} onFinish={handleLogin}>
@@ -82,6 +81,4 @@ function LoginEmployee() {
   );
 }
 
-
 export default LoginEmployee;
-

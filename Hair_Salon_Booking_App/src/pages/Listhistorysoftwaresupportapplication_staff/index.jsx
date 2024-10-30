@@ -1,6 +1,6 @@
-import { Table, Button, Form, Input, Modal, Popconfirm } from 'antd';
-import React, { useEffect, useState } from 'react';
-import api from '../../config/axios';
+import { Table, Button, Form, Input, Modal, Popconfirm } from "antd";
+import React, { useEffect, useState } from "react";
+import api from "../../config/axios";
 
 function Listhistorysoftwaresupportapplication_staff() {
   const [lists, setLists] = useState([]);
@@ -11,7 +11,9 @@ function Listhistorysoftwaresupportapplication_staff() {
 
   const fetchList = async () => {
     try {
-      const response = await api.get('/softwareSupportApplication/employees?page=0&size=10');
+      const response = await api.get(
+        "/softwareSupportApplication/employees?page=0&size=10"
+      );
       console.log(response.data);
       setLists(response.data.content);
     } catch (error) {
@@ -25,7 +27,7 @@ function Listhistorysoftwaresupportapplication_staff() {
 
   const handleAdd = async (values) => {
     try {
-      await api.post('/softwareSupportApplication', values);
+      await api.post("/softwareSupportApplication", values);
       fetchList(); // Cập nhật lại danh sách sau khi thêm mới
       setOpenModal(false); // Đóng modal
       form.resetFields(); // Reset form
@@ -85,7 +87,13 @@ function Listhistorysoftwaresupportapplication_staff() {
       title: "Image",
       dataIndex: "img",
       key: "img",
-      render: (img) => <img src={img} alt="Hình ảnh" style={{ width: '100px', height: 'auto' }} />,
+      render: (img) => (
+        <img
+          src={img}
+          alt="Hình ảnh"
+          style={{ width: "100px", height: "auto" }}
+        />
+      ),
     },
     {
       title: "Action",
@@ -97,7 +105,9 @@ function Listhistorysoftwaresupportapplication_staff() {
           </Button>
           <Popconfirm
             title="Are you sure to delete this application?"
-            onConfirm={() => handleDelete(employee.softwareSupportApplicationId)}
+            onConfirm={() =>
+              handleDelete(employee.softwareSupportApplicationId)
+            }
           >
             <Button type="primary" danger>
               Delete
@@ -114,7 +124,11 @@ function Listhistorysoftwaresupportapplication_staff() {
       <Button onClick={() => setOpenModal(true)}>
         Add New Software Support
       </Button>
-      <Table columns={columns} dataSource={lists} rowKey="softwareSupportApplicationId" />
+      <Table
+        columns={columns}
+        dataSource={lists}
+        rowKey="softwareSupportApplicationId"
+      />
 
       <Modal
         title={isEditing ? "Edit Software Support" : "Add New Software Support"}
@@ -133,16 +147,24 @@ function Listhistorysoftwaresupportapplication_staff() {
           <Form.Item
             name="description"
             label="Mô tả"
-            rules={[{ 
-            required: true, message: 'Vui lòng nhập mô tả!' }]}
+            rules={[
+              {
+                required: true,
+                message: "Vui lòng nhập mô tả!",
+              },
+            ]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             name="img"
             label="Hình ảnh URL"
-            rules={[{ 
-            required: true, message: 'Vui lòng nhập URL hình ảnh!' }]}
+            rules={[
+              {
+                required: true,
+                message: "Vui lòng nhập URL hình ảnh!",
+              },
+            ]}
           >
             <Input />
           </Form.Item>

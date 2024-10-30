@@ -1,9 +1,16 @@
-
-import { Button, Form, Input, InputNumber, Modal, Popconfirm, Table } from 'antd';
-import { useForm } from 'antd/es/form/Form';
-import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-import api from '../../config/axios';
+import {
+  Button,
+  Form,
+  Input,
+  InputNumber,
+  Modal,
+  Popconfirm,
+  Table,
+} from "antd";
+import { useForm } from "antd/es/form/Form";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import api from "../../config/axios";
 
 function EmployeeManagement() {
   const [employees, setEmployees] = useState([]);
@@ -15,8 +22,9 @@ function EmployeeManagement() {
   const fetchEmployee = async () => {
     try {
       const response = await api.get("/employee?page=0&size=8");
-      const uniqueEmployees = response.data.content.filter((employee, index, self) =>
-        index === self.findIndex((e) => e.id === employee.id)
+      const uniqueEmployees = response.data.content.filter(
+        (employee, index, self) =>
+          index === self.findIndex((e) => e.id === employee.id)
       );
       setEmployees(uniqueEmployees);
     } catch (err) {
@@ -39,12 +47,15 @@ function EmployeeManagement() {
       setSubmitting(true);
       if (editingEmployee) {
         // Nếu đang chỉnh sửa, gọi API cập nhật
-        const response = await api.put(`/updateEmployee/${editingEmployee.id}`, values); // Đổi URL cho phù hợp
-        toast('Successfully updated employee');
+        const response = await api.put(
+          `/updateEmployee/${editingEmployee.id}`,
+          values
+        ); // Đổi URL cho phù hợp
+        toast("Successfully updated employee");
       } else {
         // Nếu không, gọi API tạo mới
         const response = await api.post("/registerEmployee", values);
-        toast('Successfully created new employee');
+        toast("Successfully created new employee");
       }
       setOpenModal(false);
       fetchEmployee(); // Lấy lại danh sách nhân viên
@@ -65,7 +76,7 @@ function EmployeeManagement() {
     try {
       const response = await api.delete(`/deleteEmployee/${id}`);
       if (response.status === 200) {
-        setEmployees((prevEmployees) => 
+        setEmployees((prevEmployees) =>
           prevEmployees.filter((employee) => employee.id !== id)
         );
         toast.success("Successfully deleted");
@@ -86,7 +97,6 @@ function EmployeeManagement() {
       key: "id",
     },
     {
-
       title: "Name",
       dataIndex: "name",
       key: "name",
@@ -148,60 +158,60 @@ function EmployeeManagement() {
       <h1>Employee Management</h1>
       <Button onClick={handleOpenModal}>Create new Employee</Button>
       <Table columns={columns} dataSource={employees} rowKey={"id"} />
-      <Modal 
-        confirmLoading={submitting} 
-        onOk={() => form.submit()} 
+      <Modal
+        confirmLoading={submitting}
+        onOk={() => form.submit()}
         title={editingEmployee ? "Edit Employee" : "Create New Employee"}
-        open={openModal} 
+        open={openModal}
         onCancel={handleCloseModal}
       >
         <Form onFinish={handlecSubmitEmployee} form={form}>
-          <Form.Item 
-          label="Username" 
-          name="username" 
-          rules={[{ required: true, message: "Please input Username!" }]}
+          <Form.Item
+            label="Username"
+            name="username"
+            rules={[{ required: true, message: "Please input Username!" }]}
           >
             <Input />
           </Form.Item>
-          <Form.Item 
-          label="Name" 
-          name="name" 
-          rules={[{ required: true, message: "Please input Name!" }]}
+          <Form.Item
+            label="Name"
+            name="name"
+            rules={[{ required: true, message: "Please input Name!" }]}
           >
             <Input />
           </Form.Item>
-          <Form.Item 
-          label="Email" 
-          name="email" 
-          rules={[{ required: true, message: "Please input email!" }]}
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: "Please input email!" }]}
           >
             <Input />
           </Form.Item>
-          <Form.Item 
-          label="Phone Number" 
-          name="phoneNumber" 
-          rules={[{ required: true, message: "Please input phone number!" }]}
+          <Form.Item
+            label="Phone Number"
+            name="phoneNumber"
+            rules={[{ required: true, message: "Please input phone number!" }]}
           >
             <Input />
           </Form.Item>
-          <Form.Item 
-          label="Image" 
-          name="img" 
-          rules={[{ required: true, message: "Please input image URL!" }]}
+          <Form.Item
+            label="Image"
+            name="img"
+            rules={[{ required: true, message: "Please input image URL!" }]}
           >
             <Input />
           </Form.Item>
-          <Form.Item 
-          label="Password" 
-          name="password" 
-          rules={[{ required: true, message: "Please input password!" }]}
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: "Please input password!" }]}
           >
             <Input.Password />
           </Form.Item>
-          <Form.Item 
-          label="Role" 
-          name="role" 
-          rules={[{ required: true, message: "Please input Role!" }]}
+          <Form.Item
+            label="Role"
+            name="role"
+            rules={[{ required: true, message: "Please input Role!" }]}
           >
             <Input />
           </Form.Item>

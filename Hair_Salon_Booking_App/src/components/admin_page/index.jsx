@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./index.css";
 import { Layout, Menu, theme } from "antd";
-import { Link, Outlet,} from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/features/userSlice";
 const { Header, Sider, Content } = Layout;
@@ -15,12 +15,12 @@ const Admin = () => {
       key,
       label: <Link to={`/${key}`}>{label}</Link>,
     };
-    
   }
   function handleMenuClick(e) {
     if (e.key === "loginEmployee") {
       dispatch(logout());
-    }}
+    }
+  }
   function getItem(label, key) {
     return {
       key,
@@ -41,7 +41,7 @@ const Admin = () => {
   return (
     <Layout className="layout_container">
       <Sider
-        width={250} 
+        width={250}
         breakpoint="lg"
         collapsedWidth="0"
         onBreakpoint={(broken) => {
@@ -52,7 +52,13 @@ const Admin = () => {
         }}
       >
         <div className="demo-logo-vertical" />
-        <Menu theme="dark" mode="inline" items={items} selectedKeys={""} onClick={handleMenuClick} />
+        <Menu
+          theme="dark"
+          mode="inline"
+          items={items}
+          selectedKeys={""}
+          onClick={handleMenuClick}
+        />
       </Sider>
       <Layout>
         <Header

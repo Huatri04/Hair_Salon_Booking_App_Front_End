@@ -1,6 +1,6 @@
-import { Table, Button, Form, Input, Modal, } from 'antd';
-import React, { useEffect, useState } from 'react';
-import api from '../../config/axios';
+import { Table, Button, Form, Input, Modal, Popconfirm } from "antd";
+import React, { useEffect, useState } from "react";
+import api from "../../config/axios";
 
 function Workschedule_staff() {
   const [schedules, setSchedules] = useState([]);
@@ -50,6 +50,15 @@ function Workschedule_staff() {
     }
   };
 
+  const handleDeleteSchedule = async (dayOfWeek) => {
+    try {
+      await api.delete(`/shiftInWeek/${dayOfWeek}`);
+      fetchSchedules(); //cập nhật danh sách sau khi xóa
+    } catch (error) {
+      console.error("Error deleting schedule", error);
+    }
+  };
+
   const handleCancel = () => {
     setOpenModal(false);
     form.resetFields(); // Reset form fields khi đóng modal
@@ -83,9 +92,25 @@ function Workschedule_staff() {
       title: "Action",
       key: "action",
       render: (text, record) => (
-        <Button onClick={() => handleOpenEditModal(record)} type="primary">
-          Edit
-        </Button>
+        <div>
+          <Button
+            onClick={() => handleOpenEditModal(record)}
+            type="primary"
+            style={{ marginRight: "8px" }}
+          >
+            Edit
+          </Button>
+          <Popconfirm
+            title="Are you sure you want to delete this shift?"
+            onConfirm={() => handleDeleteSchedule(record.dayOfWeek)}
+            okText="OK"
+            cancelText="Cancel"
+          >
+            <Button type="primary" danger>
+              Delete
+            </Button>
+          </Popconfirm>
+        </div>
       ),
     },
   ];
@@ -93,10 +118,13 @@ function Workschedule_staff() {
   return (
     <div>
       <h1>Work Schedule</h1>
-      <Button onClick={() => setOpenModal(true)}>
-        Add New Schedule
-      </Button>
-      <Table columns={columns} dataSource={schedules} rowKey="dayOfWeek" style={{ marginTop: '20px' }} />
+      <Button onClick={() => setOpenModal(true)}>Add New Schedule</Button>
+      <Table
+        columns={columns}
+        dataSource={schedules}
+        rowKey="dayOfWeek"
+        style={{ marginTop: "20px" }}
+      />
 
       <Modal
         title={isEditing ? "Edit Work Schedule" : "Add New Work Schedule"}
@@ -111,25 +139,28 @@ function Workschedule_staff() {
           </Button>,
         ]}
       >
-        <Form form={form} onFinish={isEditing ? handleEditSchedule : handleAddSchedule}>
+        <Form
+          form={form}
+          onFinish={isEditing ? handleEditSchedule : handleAddSchedule}
+        >
           <Form.Item
             name="dayOfWeek"
             label="Thứ"
-            rules={[{ required: true, message: 'Vui lòng nhập thứ!' }]}
+            rules={[{ required: true, message: "Vui lòng nhập thứ!" }]}
           >
             <Input placeholder="Thứ" disabled={isEditing} />
           </Form.Item>
           <Form.Item
             name="startHour"
             label="Giờ bắt đầu"
-            rules={[{ required: true, message: 'Vui lòng nhập giờ bắt đầu!' }]}
+            rules={[{ required: true, message: "Vui lòng nhập giờ bắt đầu!" }]}
           >
             <Input placeholder="Giờ bắt đầu" />
           </Form.Item>
           <Form.Item
             name="endHour"
             label="Giờ kết thúc"
-            rules={[{ required: true, message: 'Vui lòng nhập giờ kết thúc!' }]}
+            rules={[{ required: true, message: "Vui lòng nhập giờ kết thúc!" }]}
           >
             <Input placeholder="Giờ kết thúc" />
           </Form.Item>

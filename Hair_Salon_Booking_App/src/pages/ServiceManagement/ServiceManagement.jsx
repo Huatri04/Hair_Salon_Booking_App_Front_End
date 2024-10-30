@@ -1,10 +1,9 @@
-
-import { Button, Form, Input, Modal, Popconfirm, Table } from 'antd';
-import { useForm } from 'antd/es/form/Form';
-import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-import api from '../../config/axios';
-import TextArea from 'antd/es/input/TextArea';
+import { Button, Form, Input, Modal, Popconfirm, Table } from "antd";
+import { useForm } from "antd/es/form/Form";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import api from "../../config/axios";
+import TextArea from "antd/es/input/TextArea";
 
 function ServiceManagement() {
   const [services, setServices] = useState([]);
@@ -43,33 +42,35 @@ function ServiceManagement() {
   const handleDeleteService = async (id) => {
     try {
       await api.delete(`/service/${id}`);
-      toast.success('Service deleted successfully!');
+      toast.success("Service deleted successfully!");
       fetchServices();
     } catch (error) {
-      toast.error('Failed to delete service.');
+      toast.error("Failed to delete service.");
     }
   };
 
   const handleSubmitService = async (values) => {
     console.log("Values being sent:", values); // Kiểm tra giá trị
-  
+
     try {
       setSubmitting(true);
       if (editingService) {
         // Update service
         await api.put(`/service/${editingService.id}`, values);
-        toast.success('Service updated successfully!');
+        toast.success("Service updated successfully!");
       } else {
         // Create new service
         await api.post("/service", values);
-        toast.success('Service created successfully!');
+        toast.success("Service created successfully!");
       }
       fetchServices();
       handleCloseModal();
     } catch (error) {
-      const errorMessage = error.response ? error.response.data.message : error.message;
+      const errorMessage = error.response
+        ? error.response.data.message
+        : error.message;
       console.error("Error during API call:", errorMessage);
-      toast.error('Failed to save service. ' + errorMessage);
+      toast.error("Failed to save service. " + errorMessage);
     } finally {
       setSubmitting(false);
     }
@@ -117,22 +118,21 @@ function ServiceManagement() {
       render: (id, service) => (
         <>
           <Button type="primary" onClick={() => handleEditService(service)}>
-              Edit
+            Edit
+          </Button>
+          <Popconfirm
+            title="Delete"
+            description="Do you want to delete this employee?"
+            onConfirm={() => handleDeleteService(service.id)}
+          >
+            <Button type="primary" danger>
+              Delete
             </Button>
-            <Popconfirm
-              title="Delete"
-              description="Do you want to delete this employee?"
-              onConfirm={() => handleDeleteService(service.id)}
-            >
-              <Button type="primary" danger>
-                Delete
-              </Button>
-            </Popconfirm>
+          </Popconfirm>
         </>
       ),
     },
   ];
-
 
   return (
     <div>
@@ -164,7 +164,9 @@ function ServiceManagement() {
           <Form.Item
             label="Time of Service"
             name="timeOfService"
-            rules={[{ required: true, message: "Please input Time of Service!" }]}
+            rules={[
+              { required: true, message: "Please input Time of Service!" },
+            ]}
           >
             <Input />
           </Form.Item>
@@ -185,4 +187,3 @@ function ServiceManagement() {
 }
 
 export default ServiceManagement;
-

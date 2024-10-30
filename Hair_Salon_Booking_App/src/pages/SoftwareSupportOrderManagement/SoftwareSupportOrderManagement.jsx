@@ -1,27 +1,26 @@
-
-import { Table } from 'antd';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import api from '../../config/axios';
-import { toast } from 'react-toastify';
+import { Table } from "antd";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import api from "../../config/axios";
+import { toast } from "react-toastify";
 
 function SoftwareSupportOrderManagement() {
-
   const [oders, setOrders] = useState([]);
 
   const fetchOrder = async () => {
     try {
-      const response = await api.get("/softwareSupportApplication/employees?page=0&size=10");
+      const response = await api.get(
+        "/softwareSupportApplication/employees?page=0&size=10"
+      );
       setOrders(response.data.content);
     } catch (error) {
-      toast.error(error.response.data)
+      toast.error(error.response.data);
     }
   };
   //[]: dependency array
   useEffect(() => {
-  fetchOrder();
-
-  },[]);
+    fetchOrder();
+  }, []);
 
   const columns = [
     {
@@ -47,14 +46,18 @@ function SoftwareSupportOrderManagement() {
       render: (text, record) => {
         const date = new Date(record.createdAt);
         return date.toLocaleDateString();
+      },
     },
-    }
   ];
-return(
+  return (
     <div>
       <h1>Software Support Order Management</h1>
-       <Table key={"softwareSupportApplicationId"} columns={columns} dataSource={oders}/>
-       </div>  
-)
+      <Table
+        rowKey={"softwareSupportApplicationId"}
+        columns={columns}
+        dataSource={oders}
+      />
+    </div>
+  );
 }
-export default SoftwareSupportOrderManagement
+export default SoftwareSupportOrderManagement;

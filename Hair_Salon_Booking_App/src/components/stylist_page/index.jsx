@@ -11,35 +11,38 @@ const Stylist_page = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   function getItemLogOut(label, key) {
-  return{
+    return {
       key,
       label: <Link to={`/${key}`}> {label}</Link>,
     };
   }
-function handleMenuClick(e) {
-  if (e.key === "loginEmployee") {
-    dispatch(logout());
-  }}
-function getItem(label, key) {
-  return {
-    key,
-    label: <Link to={`/stylist_page/${key}`}> {label}</Link>,
-  };
-}
+  function handleMenuClick(e) {
+    if (e.key === "loginEmployee") {
+      dispatch(logout());
+    }
+  }
+  function getItem(label, key) {
+    return {
+      key,
+      label: <Link to={`/stylist_page/${key}`}> {label}</Link>,
+    };
+  }
 
   const items = [
-    getItem("Home","Home_employee"),
-    getItem("Quản lý danh sách lịch sử phần mềm hỗ trợ ứng dụng", "listhistorysoftwaresupportapplication"),
+    getItem("Home", "Home_employee"),
+    getItem(
+      "Quản lý danh sách lịch sử phần mềm hỗ trợ ứng dụng",
+      "listhistorysoftwaresupportapplication"
+    ),
     getItem("Quản lý lịch trình làm việc", "workschedule"),
     getItem("Quản lý lịch sử danh sách lương", "listhistorysalary"),
     getItem("Quản lý lịch hẹn", "appointmentmanagement"),
     getItemLogOut("Đăng xuất", "loginEmployee"),
-
   ];
   return (
     <Layout className="layout_container">
       <Sider
-      width={400} 
+        width={400}
         breakpoint="lg"
         collapsedWidth="0"
         onBreakpoint={(broken) => {
@@ -50,7 +53,13 @@ function getItem(label, key) {
         }}
       >
         <div className="demo-logo-vertical" />
-        <Menu theme="dark" mode="inline" items={items} selectedKeys={""} onClick={handleMenuClick} />
+        <Menu
+          theme="dark"
+          mode="inline"
+          items={items}
+          selectedKeys={""}
+          onClick={handleMenuClick}
+        />
       </Sider>
       <Layout>
         <Header
@@ -82,7 +91,6 @@ function getItem(label, key) {
               borderRadius: borderRadiusLG,
             }}
           >
-            
             <Outlet />
           </div>
         </Content>

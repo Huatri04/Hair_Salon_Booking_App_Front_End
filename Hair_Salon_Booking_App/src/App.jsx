@@ -5,7 +5,7 @@ import Admin from "./components/admin_page/index.jsx";
 import EmployeeManagement from "./pages/EmployeeMangament/EmployeeManagement.jsx";
 import SoftwareSupportOrderManagement from "./pages/SoftwareSupportOrderManagement/SoftwareSupportOrderManagement.jsx";
 import ServiceManagement from "./pages/ServiceManagement/ServiceManagement.jsx";
-import CustomerAccountManagememnt from "./pages/CustomerAccountManagement/customerAccountManagement.jsx";
+import CustomerAccountManagememnt from "./pages/CustomerAccountManagement/CustomerAccountManagement.jsx";
 import SupportApplicationOfCustomer from "./pages/SupportApplicationOfCustomer/SupportApplicationOfCustomer.jsx";
 import LoginEmployee from "./pages/LoginEmployee/index.jsx";
 import Home_employee from "./pages/Home_employee/index.jsx";
@@ -14,7 +14,7 @@ import Listhistorysoftwaresupportapplication from "./pages/Listhistorysoftwaresu
 import Workschedule from "./pages/Workschedule/index.jsx";
 import Listhistorysalary from "./pages/ListHistorySalary/index.jsx";
 import Listhistorysalary_staff from "./pages/Listhistorysalary_staff/index.jsx";
-import Workschedule_staff from "./pages/workschedule_staff/index.jsx";
+import Workschedule_staff from "./pages/Workschedule_staff/index.jsx";
 import Listhistorysoftwaresupportapplication_staff from "./pages/Listhistorysoftwaresupportapplication_staff/index.jsx";
 import Staff_page from "./components/staff_page/index.jsx";
 import AppointmentManagement_staff from "./pages/AppointmentManagement_staff/AppointmentManagement_staff.jsx";
