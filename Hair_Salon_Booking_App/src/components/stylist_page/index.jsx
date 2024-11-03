@@ -30,6 +30,7 @@ const Stylist_page = () => {
 
   const items = [
     getItem("Home", "Home_employee"),
+    getItem("Lịch trình hàng tuần", "WeeklyTimetable"),
     getItem(
       "Quản lý danh sách lịch sử phần mềm hỗ trợ ứng dụng",
       "listhistorysoftwaresupportapplication"

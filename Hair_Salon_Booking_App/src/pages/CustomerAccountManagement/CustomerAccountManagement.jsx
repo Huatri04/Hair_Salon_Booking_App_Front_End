@@ -42,23 +42,6 @@ function CustomerAccountManagememnt() {
       dataIndex: "email",
       key: "email",
     },
-    // {
-    //   title: "Password",
-    //   dataIndex: "password",
-    //   key: "password",
-    //   render: (text) => (
-    //     <div>
-    //       {passwordVisible ? (
-    //         <span>{text}</span> // Show password
-    //       ) : (
-    //         <span>{'*'.repeat(text.length)}</span> // Hide password
-    //       )}
-    //       <Button onClick={togglePasswordVisibility} size="small" style={{ marginLeft: '8px' }}>
-    //         {passwordVisible ? 'Hide' : 'Show'}
-    //       </Button>
-    //     </div>
-    //   ),
-    // },
     {
       title: "Ngày tạo",
       dataIndex: "creatAt",

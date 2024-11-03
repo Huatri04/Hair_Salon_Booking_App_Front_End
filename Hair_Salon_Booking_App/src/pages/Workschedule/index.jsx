@@ -27,6 +27,10 @@ function Workschedule() {
   // Xử lý việc thêm ca làm
   const handleAddSchedule = async (values) => {
     try {
+      const requestData = {
+        ...values,
+        dateApply: values.dateApply || new Date().toISOString(), // nếu chưa có dateApply, sử dụng ngày hiện tại
+      };
       await api.post("/shiftInWeek", values);
       fetchSchedules(); // Cập nhật danh sách lịch sau khi thêm
       setOpenModal(false); // Đóng modal
@@ -163,6 +167,13 @@ function Workschedule() {
             rules={[{ required: true, message: "Vui lòng nhập giờ kết thúc!" }]}
           >
             <Input placeholder="Giờ kết thúc" />
+          </Form.Item>
+          <Form.Item
+            name="dateApply"
+            label="Ngày áp dụng"
+            rules={[{ required: true, message: "Vui lòng nhập ngày áp dụng!" }]}
+          >
+            <Input placeholder="Ngày áp dụng (ví dụ: 2024-10-30T14:15:30.909Z)" />
           </Form.Item>
         </Form>
       </Modal>

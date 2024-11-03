@@ -10,9 +10,10 @@ import SupportApplicationOfCustomer from "./pages/SupportApplicationOfCustomer/S
 import LoginEmployee from "./pages/LoginEmployee/index.jsx";
 import Home_employee from "./pages/Home_employee/index.jsx";
 import Stylist_page from "./components/stylist_page/index.jsx";
+import WeeklyTimetable from "./pages/WeeklyTimetable/index.jsx";
 import Listhistorysoftwaresupportapplication from "./pages/Listhistorysoftwaresupportapplication/index.jsx";
 import Workschedule from "./pages/Workschedule/index.jsx";
-import Listhistorysalary from "./pages/ListHistorySalary/index.jsx";
+import Listhistorysalary from "./pages/Listhistorysalary/index.jsx";
 import Listhistorysalary_staff from "./pages/Listhistorysalary_staff/index.jsx";
 import Workschedule_staff from "./pages/Workschedule_staff/index.jsx";
 import Listhistorysoftwaresupportapplication_staff from "./pages/Listhistorysoftwaresupportapplication_staff/index.jsx";
@@ -20,67 +21,69 @@ import Staff_page from "./components/staff_page/index.jsx";
 import AppointmentManagement_staff from "./pages/AppointmentManagement_staff/AppointmentManagement_staff.jsx";
 import AppointmentManagement from "./pages/AppointmentManagement/AppointmentManagement.jsx";
 
-
 function App() {
- 
   const router = createBrowserRouter([
     {
       path: "loginEmployee",
-      element: <LoginEmployee/>,
+      element: <LoginEmployee />,
     },
-   
+
     {
       path: "staff_page",
-      element: <Staff_page/>,
+      element: <Staff_page />,
       children: [
         {
           path: "home_employee",
-          element: < Home_employee/>,
+          element: <Home_employee />,
         },
         {
           path: "listhistorysoftwaresupportapplication_staff",
-          element: < Listhistorysoftwaresupportapplication_staff/>,
+          element: <Listhistorysoftwaresupportapplication_staff />,
         },
         {
           path: "workschedule_staff",
-          element: < Workschedule_staff/>,
+          element: <Workschedule_staff />,
         },
         {
           path: "listhistorysalary_staff",
-          element: < Listhistorysalary_staff/>,
+          element: <Listhistorysalary_staff />,
         },
         {
           path: "appointmentmanagement_staff",
-          element: < AppointmentManagement_staff/>,
+          element: <AppointmentManagement_staff />,
         },
-      ]
+      ],
     },
 
     {
       path: "stylist_page",
-      element: <Stylist_page/>,
+      element: <Stylist_page />,
       children: [
         {
           path: "home_employee",
-          element: < Home_employee/>,
+          element: <Home_employee />,
+        },
+        {
+          path: "WeeklyTimetable",
+          element: <WeeklyTimetable />,
         },
         {
           path: "listhistorysoftwaresupportapplication",
-          element: < Listhistorysoftwaresupportapplication/>,
+          element: <Listhistorysoftwaresupportapplication />,
         },
         {
           path: "workschedule",
-          element: < Workschedule/>,
+          element: <Workschedule />,
         },
         {
           path: "listhistorysalary",
-          element: < Listhistorysalary/>,
+          element: <Listhistorysalary />,
         },
         {
           path: "appointmentmanagement",
-          element: < AppointmentManagement/>,
+          element: <AppointmentManagement />,
         },
-      ]
+      ],
     },
     {
       path: "admin_page",
@@ -88,7 +91,7 @@ function App() {
       children: [
         {
           path: "home_employee",
-          element: < Home_employee/>,
+          element: <Home_employee />,
         },
         {
           path: "services",
@@ -100,7 +103,7 @@ function App() {
         },
         {
           path: "SoftwareSupportOrderManagement",
-          element: < SoftwareSupportOrderManagement/>,
+          element: <SoftwareSupportOrderManagement />,
         },
         {
           path: "CustomerAccountManagememnt",
@@ -112,8 +115,6 @@ function App() {
         },
       ],
     },
-    
-    
   ]);
   return <RouterProvider router={router} />;
 }

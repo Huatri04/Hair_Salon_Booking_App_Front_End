@@ -1,11 +1,13 @@
-import { Table } from "antd";
-import axios from "axios";
+import { Table, Button, Modal, Input } from "antd";
 import React, { useEffect, useState } from "react";
 import api from "../../config/axios";
 import { toast } from "react-toastify";
 
 function SoftwareSupportOrderManagement() {
-  const [oders, setOrders] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [updatedDescription, setUpdatedDescription] = useState("");
 
   const fetchOrder = async () => {
     try {
@@ -14,10 +16,45 @@ function SoftwareSupportOrderManagement() {
       );
       setOrders(response.data.content);
     } catch (error) {
-      toast.error(error.response.data);
+      toast.error(error.response?.data || "Error fetching orders");
     }
   };
-  //[]: dependency array
+
+  const openEditModal = (order) => {
+    setSelectedOrder(order);
+    setUpdatedDescription(order.description);
+    setIsModalOpen(true);
+  };
+
+  const handleUpdateOrder = async () => {
+    if (selectedOrder) {
+      try {
+        await api.put(
+          `/softwareSupportApplication/${selectedOrder.softwareSupportApplicationId}`,
+          {
+            description: updatedDescription,
+          }
+        );
+        toast.success("Order updated successfully");
+        fetchOrder(); // Refresh the order list
+        setIsModalOpen(false);
+      } catch (error) {
+        toast.error(error.response?.data || "Error updating order");
+      }
+    }
+  };
+
+  // Hàm xóa đơn hàng
+  const handleDeleteOrder = async (orderId) => {
+    try {
+      await api.delete(`/softwareSupportApplication/${orderId}`);
+      toast.success("Order deleted successfully");
+      fetchOrder(); // Refresh the order list
+    } catch (error) {
+      toast.error(error.response?.data || "Error deleting order");
+    }
+  };
+
   useEffect(() => {
     fetchOrder();
   }, []);
@@ -48,16 +85,51 @@ function SoftwareSupportOrderManagement() {
         return date.toLocaleDateString();
       },
     },
+    {
+      title: "Actions",
+      key: "actions",
+      render: (text, record) => (
+        <>
+          <Button type="primary" onClick={() => openEditModal(record)}>
+            Edit
+          </Button>
+          <Button
+            type="primary" danger
+            onClick={() =>
+              handleDeleteOrder(record.softwareSupportApplicationId)
+            }
+            style={{ marginLeft: 8 }}
+          >
+            Delete
+          </Button>
+        </>
+      ),
+    },
   ];
+
   return (
     <div>
       <h1>Software Support Order Management</h1>
       <Table
         rowKey={"softwareSupportApplicationId"}
         columns={columns}
-        dataSource={oders}
+        dataSource={orders}
       />
+
+      <Modal
+        title="Edit Order"
+        open={isModalOpen}
+        onOk={handleUpdateOrder}
+        onCancel={() => setIsModalOpen(false)}
+      >
+        <label>Description:</label>
+        <Input
+          value={updatedDescription}
+          onChange={(e) => setUpdatedDescription(e.target.value)}
+        />
+      </Modal>
     </div>
   );
 }
+
 export default SoftwareSupportOrderManagement;

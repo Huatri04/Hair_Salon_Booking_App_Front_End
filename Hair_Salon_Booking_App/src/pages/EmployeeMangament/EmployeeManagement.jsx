@@ -1,12 +1,4 @@
-import {
-  Button,
-  Form,
-  Input,
-  InputNumber,
-  Modal,
-  Popconfirm,
-  Table,
-} from "antd";
+import { Button, Form, Input, Modal, Popconfirm, Table } from "antd";
 import { useForm } from "antd/es/form/Form";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -17,7 +9,7 @@ function EmployeeManagement() {
   const [openModal, setOpenModal] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [form] = Form.useForm();
-  const [editingEmployee, setEditingEmployee] = useState(null); // Thêm trạng thái để theo dõi nhân viên đang chỉnh sửa
+  const [editingEmployee, setEditingEmployee] = useState(null);
 
   const fetchEmployee = async () => {
     try {
@@ -42,29 +34,37 @@ function EmployeeManagement() {
     setEditingEmployee(null); // Reset employee đang chỉnh sửa
   };
 
-  const handlecSubmitEmployee = async (values) => {
-    try {
-      setSubmitting(true);
-      if (editingEmployee) {
-        // Nếu đang chỉnh sửa, gọi API cập nhật
-        const response = await api.put(
-          `/updateEmployee/${editingEmployee.id}`,
-          values
-        ); // Đổi URL cho phù hợp
-        toast("Successfully updated employee");
-      } else {
-        // Nếu không, gọi API tạo mới
-        const response = await api.post("/registerEmployee", values);
-        toast("Successfully created new employee");
-      }
-      setOpenModal(false);
-      fetchEmployee(); // Lấy lại danh sách nhân viên
-    } catch (err) {
-      toast.error(err.response?.data || "Error submitting employee data");
-    } finally {
-      setSubmitting(false);
-    }
-  };
+ const handlecSubmitEmployee = async (values) => {
+   try {
+     setSubmitting(true);
+     if (editingEmployee) {
+       // Nếu đang chỉnh sửa, gọi API cập nhật
+       const response = await api.put(
+         `/employee/restart/${editingEmployee.id}`, // Đường dẫn PUT
+         values
+       );
+       if (response.status === 200) {
+         // Cập nhật danh sách nhân viên sau khi thành công
+         fetchEmployee(); // Lấy lại danh sách nhân viên
+         toast("Successfully updated employee");
+       }
+     } else {
+       // Nếu không, gọi API tạo mới
+       const response = await api.post("/registerEmployee", values);
+       if (response.status === 201) {
+         // Cập nhật danh sách nhân viên sau khi tạo mới thành công
+         fetchEmployee(); // Lấy lại danh sách nhân viên
+         toast("Successfully created new employee");
+       }
+     }
+     setOpenModal(false);
+   } catch (err) {
+     toast.error(err.response?.data || "Error submitting employee data");
+   } finally {
+     setSubmitting(false);
+   }
+ };
+
 
   const handleEdit = (employee) => {
     setEditingEmployee(employee); // Lưu thông tin nhân viên đang chỉnh sửa
@@ -125,8 +125,8 @@ function EmployeeManagement() {
     },
     {
       title: "Image",
-      dataIndex: "role",
-      key: "role",
+      dataIndex: "img",
+      key: "img",
     },
     {
       title: "Action",
@@ -135,7 +135,11 @@ function EmployeeManagement() {
       render: (id, employee) => {
         return (
           <>
-            <Button type="primary" onClick={() => handleEdit(employee)}>
+            <Button
+              type="primary"
+              onClick={() => handleEdit(employee)}
+              style={{ marginLeft: 8 }}
+            >
               Edit
             </Button>
             <Popconfirm
@@ -143,7 +147,7 @@ function EmployeeManagement() {
               description="Do you want to delete this employee?"
               onConfirm={() => handleDelete(id)}
             >
-              <Button type="primary" danger>
+              <Button type="primary" danger style={{ marginLeft: 8 }}>
                 Delete
               </Button>
             </Popconfirm>

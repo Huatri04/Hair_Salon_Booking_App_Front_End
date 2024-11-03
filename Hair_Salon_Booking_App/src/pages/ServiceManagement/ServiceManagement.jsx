@@ -117,7 +117,11 @@ function ServiceManagement() {
       key: "id",
       render: (id, service) => (
         <>
-          <Button type="primary" onClick={() => handleEditService(service)}>
+          <Button
+            type="primary"
+            onClick={() => handleEditService(service)}
+            style={{ marginLeft: 8 }}
+          >
             Edit
           </Button>
           <Popconfirm
@@ -125,7 +129,7 @@ function ServiceManagement() {
             description="Do you want to delete this employee?"
             onConfirm={() => handleDeleteService(service.id)}
           >
-            <Button type="primary" danger>
+            <Button type="primary" danger style={{ marginLeft: 8 }}>
               Delete
             </Button>
           </Popconfirm>

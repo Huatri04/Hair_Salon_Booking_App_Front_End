@@ -6,14 +6,7 @@ function AppointmentManagement() {
   const [appointments, setAppointments] = useState([]);
 
   const fethAppointment = async () => {
-    // lấy dữ liệu từ bach-end
-
-    //javascrip gọi đây là promise
-    //chưa xảy ra liền cần 1 thời gian thực hiện
-    //=> function bất đồng bộ => cần thời gian để thực hiện
-    // await: đợi tới khi mà api trả về kết quả
     try {
-      // Cập nhật URL API của bạn
       const response = await axios.get();
       setAppointments(response.data); // Cập nhật dữ liệu lịch hẹn vào state
     } catch (error) {
@@ -28,8 +21,8 @@ function AppointmentManagement() {
   const columns = [
     {
       title: "Tên Nhân Viên",
-      dataIndex: "customerName", // Dữ liệu từ API
-      key: "customerName",
+      dataIndex: "employee.name", // Dữ liệu từ API
+      key: "employee.name",
     },
     {
       title: "Ngày hẹn",
