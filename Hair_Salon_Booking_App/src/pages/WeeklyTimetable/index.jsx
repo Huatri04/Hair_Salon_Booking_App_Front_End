@@ -1,93 +1,130 @@
-import api from "../../config/axios";
-import { Table, Button, Input } from "antd";
 import React, { useEffect, useState } from "react";
+import { Table, Button } from "antd";
 import { toast } from "react-toastify";
+import api from "../../config/axios";
 
-function WeeklyTimetable() {
-  const [shifts, setShifts] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(
-    new Date().toISOString().split("T")[0] // Ngày hiện tại
-  );
-  const [inputDate, setInputDate] = useState(selectedDate); // Ngày từ ô nhập
+const WeeklyTimetable = () => {
+  const [shiftData, setShiftData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [startDate, setStartDate] = useState(null); // startDate cho tuần hiện tại
+  const [weekDates, setWeekDates] = useState([]); // Các ngày từ thứ Hai đến Chủ Nhật
 
-  // Hàm để lấy thông tin ca làm việc từ API
-  const fetchShifts = async () => {
-    try {
-      const response = await api.get(`/shiftEmployee`);
-      setShifts(response.data);
-    } catch (error) {
-      toast.error("Lỗi khi lấy thông tin ca làm việc");
+  // Hàm xác định ngày đầu tuần (thứ Hai) dựa vào ngày hiện tại
+  const calculateWeekDates = (baseDate = new Date()) => {
+    const dayOfWeek = baseDate.getDay();
+    const monday = new Date(baseDate);
+    monday.setDate(baseDate.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
+
+    const dates = [];
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(monday);
+      date.setDate(monday.getDate() + i);
+      dates.push(date.toISOString().split("T")[0]); // Format yyyy-mm-dd
     }
+    setStartDate(dates[0]); // Ngày đầu tuần (thứ Hai)
+    setWeekDates(dates);
   };
 
-  // Sử dụng useEffect để lấy dữ liệu khi component được render
   useEffect(() => {
-    fetchShifts();
+    // Tính toán các ngày của tuần hiện tại khi component mount
+    calculateWeekDates();
   }, []);
 
-  // Cấu trúc các cột cho bảng
+  useEffect(() => {
+    if (!startDate) return;
+
+    const fetchShiftData = async () => {
+      setLoading(true);
+      try {
+        console.log("Fetching shifts for startDate:", startDate); // Kiểm tra giá trị startDate
+        const response = await api.get(
+          `/shiftEmployee/stylist/${startDate}?page=1&pageSize=10`
+        );
+        const data = response.data.content.map((shift) => ({
+          id: shift.id,
+          name: shift.name,
+          date: shift.date,
+          dayInWeek: shift.dayInWeek,
+          startHour: shift.startHour,
+          endHour: shift.endHour,
+        }));
+        setShiftData(data);
+      } catch (error) {
+        console.error("Error fetching shift data:", error.response || error); // Thông báo chi tiết lỗi
+        toast.error("Có lỗi xảy ra khi tải dữ liệu ca làm việc!");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchShiftData();
+  }, [startDate]);
+
+  // Hàm chuyển đến tuần tiếp theo
+  const goToNextWeek = () => {
+    const nextMonday = new Date(startDate);
+    nextMonday.setDate(nextMonday.getDate() + 7);
+    calculateWeekDates(nextMonday);
+  };
+
+  // Hàm chuyển đến tuần trước
+  const goToPreviousWeek = () => {
+    const previousMonday = new Date(startDate);
+    previousMonday.setDate(previousMonday.getDate() - 7);
+    calculateWeekDates(previousMonday);
+  };
+
   const columns = [
     {
       title: "ID",
-      dataIndex: "slotId",
-      key: "slotId",
+      dataIndex: "id",
+      key: "id",
     },
     {
-      title: "Tên Stylist",
-      dataIndex: "stylistName",
-      key: "stylistName",
+      title: "Tên",
+      dataIndex: "name",
+      key: "name",
     },
     {
-      title: "Giờ Bắt Đầu",
+      title: "Ngày trong tuần",
+      dataIndex: "dayInWeek",
+      key: "dayInWeek",
+    },
+    {
+      title: "Giờ bắt đầu",
       dataIndex: "startHour",
       key: "startHour",
     },
     {
-      title: "Cấp bậc Stylist",
-      dataIndex: "stylistLevel",
-      key: "stylistLevel",
-      render: (level) => (level ? level : "Không có thông tin"),
+      title: "Giờ kết thúc",
+      dataIndex: "endHour",
+      key: "endHour",
+    },
+    {
+      title: "Ngày",
+      dataIndex: "date",
+      key: "date",
     },
   ];
 
-  // Hàm để chọn ngày và lấy dữ liệu ca làm việc theo ngày
-  const handleSelectDay = async (date) => {
-    setSelectedDate(date);
-    setInputDate(date); // Cập nhật ô nhập
-    try {
-      const response = await api.get(`/shiftEmployee/available/${date}`);
-      setShifts(response.data);
-    } catch (error) {
-      toast.error("Lỗi khi lấy dữ liệu ca làm việc theo ngày");
-    }
-  };
-
-  // Hàm để xử lý khi ô nhập liệu thay đổi
-  const handleInputChange = (e) => {
-    setInputDate(e.target.value);
-  };
-
-  // Hàm để xử lý khi người dùng nhấn nút xem ca làm việc
-  const handleSubmit = () => {
-    handleSelectDay(inputDate);
-  };
-
   return (
     <div>
-      <h1>Thông Tin Ca Làm Việc Của Nhân Viên</h1>
-
-      <div style={{ marginBottom: "16px" }}>
-        <Input
-          type="date"
-          value={inputDate}
-          onChange={handleInputChange}
-          style={{ marginRight: "8px" }}
-        />
-        <Button onClick={handleSubmit}>Xem ca làm việc</Button>
+      <h2>
+        Lịch làm việc từ {weekDates[0]} đến {weekDates[6]}
+      </h2>
+      <div>
+        <Button onClick={goToPreviousWeek}>Trước</Button>
+        <Button onClick={goToNextWeek}>Sau</Button>
       </div>
-      <Table rowKey={"slotId"} columns={columns} dataSource={shifts} />
+      <Table
+        columns={columns}
+        dataSource={shiftData}
+        loading={loading}
+        rowKey="id"
+        pagination={{ pageSize: 10 }}
+      />
     </div>
   );
-}
+};
 
 export default WeeklyTimetable;
