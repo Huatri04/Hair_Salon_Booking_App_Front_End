@@ -5,7 +5,7 @@ import Register_template from "../../components/register_template";
 import api from "../../config/axios";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-function LoginCustomer() {
+function RegisterCustomer() {
   const [form] = Form.useForm(); // Create a form instance
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -113,4 +113,4 @@ function LoginCustomer() {
   );
 }
 
-export default LoginCustomer;
+export default RegisterCustomer;

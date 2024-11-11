@@ -1,10 +1,27 @@
-import React from "react";
-import Default_template from "../../components/default_template/index.jsx";
+import React, { useEffect, useState } from "react";
 import "./index.css";
 import { Button } from "antd";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import api from "../../config/axios.js";
+import { toast } from "react-toastify";
+import "./index.scss";
 function Home() {
   const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
+  const fetchProduct = async () => {
+    try {
+      const response = await api.get("availableService");
+      setProducts(response.data);
+      console.log(response.data);
+    } catch (err) {
+      console.log("Error fetch product: ", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchProduct();
+  }, []);
+
   return (
     <div className="content_container">
       <img
@@ -16,51 +33,50 @@ function Home() {
         <Button
           color="default"
           variant="solid"
-          onClick={() => navigate("/loginCustomer")}
+          onClick={() => {
+            navigate("/loginCustomer");
+          }}
         >
           Đặt lịch hẹn
         </Button>
       </div>
       <div className="container">
-        <h1 className="head_title">Loại dịch vụ:</h1>
-        <div className="image_container">
-          <div className="container_item">
-            <img
-              className="item"
-              src="https://storage.30shine.com/web/v4/images/uon-trang-chu/uon-1.jpg"
-              alt=""
-            />
-
-            <span className="text">CẮT TÓC</span>
-
-            <span className="support">Tìm hiểu thêm</span>
-          </div>
-          <div className="container_item">
-            <img
-              className="item"
-              src="https://storage.30shine.com/web/v4/images/uon-trang-chu/uon-2.jpg"
-              alt=""
-            />
-
-            <span className="text">UỐN ĐỊNH HÌNH</span>
-
-            <span className="support">Tìm hiểu thêm</span>
-          </div>
-          <div className="container_item">
-            <img
-              className="item"
-              src="https://storage.30shine.com/web/v4/images/uon-trang-chu/uon-3.jpg"
-              alt=""
-            />
-
-            <span className="text">THAY ĐỔI MÀU TÓC</span>
-
-            <span className="support">Tìm hiểu thêm</span>
-          </div>
+        <div className="product_list">
+          {products.map((product) => (
+            <Product key={product.name} product={product} />
+          ))}
         </div>
       </div>
     </div>
   );
 }
+
+const Product = ({ product }) => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="product">
+      <img
+        src="https://firebasestorage.googleapis.com/v0/b/hair-d1f00.appspot.com/o/theme-park-177148_960_720%20(1).jpg?alt=media&token=87cd9707-4868-4b89-bd7d-141fbebe434d"
+        alt=""
+      />
+      <h3>{product.name}</h3>
+      <p>{}</p>
+      <p>Price: {product.cost}</p>
+      <p>Thời gian phục vụ: {product.timeOfService} minutes</p>
+      <center>
+        <Button
+          color="default"
+          variant="solid"
+          onClick={() => {
+            navigate("/loginCustomer");
+          }}
+        >
+          Đặt lịch hẹn
+        </Button>
+      </center>
+    </div>
+  );
+};
 
 export default Home;

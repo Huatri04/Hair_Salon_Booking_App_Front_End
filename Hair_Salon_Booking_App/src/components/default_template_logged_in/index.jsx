@@ -9,9 +9,11 @@ import {
 } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
 
-import Home from "../../pages/Home";
+import Home from "../../pages/Home_logged_in";
 import { Avatar, Drawer, Layout, Menu } from "antd";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/features/userSlice";
+import { resetCart } from "../../redux/features/cartSlide";
 
 function Default_template_logged_in() {
   const { Header, Content, Footer } = Layout;
@@ -20,6 +22,7 @@ function Default_template_logged_in() {
   const [selectedKey, setSelectedKey] = useState([]);
   const [open, setOpen] = useState(false);
   const user = useSelector((store) => store.user);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const savedKey = localStorage.getItem("SelectedKey");
@@ -39,6 +42,13 @@ function Default_template_logged_in() {
     localStorage.setItem("SelectedKey", e.key);
   }
 
+  function getItemLogOut(label, key) {
+    return {
+      key,
+      label: <Link to={`/${key}`}>{label}</Link>,
+    };
+  }
+
   function getItem(label, key) {
     return {
       key,
@@ -53,15 +63,23 @@ function Default_template_logged_in() {
   };
   const itemsList = [
     getItem("Thông tin của tôi", "logged_in/myProfile"),
-    getItem("Lịch sử tỏa sáng"),
-    getItem("Điểm trung thành"),
-    getItem("Hỗ trợ phần mềm"),
+    getItem("Lịch sử tỏa sáng", "logged_in/historyOfServices"),
+    getItem("Điểm trung thành", "logged_in/loyalPoints"),
+    getItem("Hỗ trợ phần mềm", "logged_in/softwareSupportApplication"),
+    getItemLogOut("Đăng xuất", ""),
   ];
   const items = [
     getItem("Trang chủ", "logged_in"),
     getItem("Về chúng tôi", "logged_in/about"),
     getItem("Liên hệ", "logged_in/contact"),
   ];
+
+  function handleDrawerClick(e) {
+    if (e.key === "") {
+      dispatch(resetCart());
+      dispatch(logout());
+    }
+  }
 
   return (
     <Layout className="layout">
@@ -88,14 +106,16 @@ function Default_template_logged_in() {
           <Avatar onClick={showDrawer} size="large" icon={<UserOutlined />} />
         </div>
       </Header>
-      <Drawer onClose={onClose} open={open}>
+      <Drawer title={user.name} onClose={onClose} open={open}>
         <Menu
           theme="light"
           style={{
             width: 330,
           }}
+          selectedKeys={" "}
           mode="inline"
           items={itemsList}
+          onClick={handleDrawerClick}
         />
       </Drawer>
       <Content className="content_container" style={{ padding: "0 50px" }}>
@@ -104,13 +124,6 @@ function Default_template_logged_in() {
         </Routes>
         <Outlet />
       </Content>
-      <Footer className="footer" style={{ textAlign: "center" }}>
-        Address: 47 Hoang Dieu 2, Quan 9, thanh pho Ho Chi Minh
-        <br />
-        Phone number: 0886122578
-        <br />
-        Giờ mở cửa: Thứ Hai - Thứ Bảy: 7:00 AM - 8:00 PM
-      </Footer>
     </Layout>
   );
 }

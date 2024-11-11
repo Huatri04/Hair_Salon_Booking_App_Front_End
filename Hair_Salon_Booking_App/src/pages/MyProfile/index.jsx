@@ -1,18 +1,35 @@
 import { Button, Form, Input } from "antd";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./index.css";
 import { toast } from "react-toastify";
 import api from "../../config/axios";
 import { useState } from "react";
+import { updateProfile } from "../../redux/features/userSlice"; // Correct path to your slice
+import { useForm } from "antd/es/form/Form";
+
 function MyProfile() {
+  const dispatch = useDispatch();
   const user = useSelector((store) => store.user);
   const [loading, setLoading] = useState(false);
+  const [form] = useForm();
   const handleUpdate = async (values) => {
-    const response = await api.post(`profile/${user.phoneNumber}`, values);
+    try {
+      setLoading(true);
+      const response = await api.put("profile", values);
+      dispatch(updateProfile(values)); // Dispatch updateProfile action
+      toast.success("Successful update");
+
+      form.resetFields(["oldPassword", "newPassword"]); // Reset the fields
+    } catch (err) {
+      toast.error(err.response.data);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <div className="profile_container">
       <Form
+        form={form}
         labelCol={{ span: 24 }}
         initialValues={{
           phoneNumber: user.phoneNumber,

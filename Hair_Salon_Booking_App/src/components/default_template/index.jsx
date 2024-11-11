@@ -75,19 +75,12 @@ function Default_template() {
           <Button onClick={() => navigate("/registerCustomer")}>SIGN UP</Button>
         </div>
       </Header>
-      <Content className="content_container" style={{ padding: "0 50px" }}>
+      <Content className="content_container" style={{ padding: "0 0 0 18px" }}>
         <Routes>
           <Route path="/" element={<Home />} />
         </Routes>
         <Outlet />
       </Content>
-      <Footer className="footer" style={{ textAlign: "center" }}>
-        Address: 47 Hoang Dieu 2, Quan 9, thanh pho Ho Chi Minh
-        <br />
-        Phone number: 0886122578
-        <br />
-        Giờ mở cửa: Thứ Hai - Thứ Bảy: 7:00 AM - 8:00 PM
-      </Footer>
     </Layout>
   );
 }

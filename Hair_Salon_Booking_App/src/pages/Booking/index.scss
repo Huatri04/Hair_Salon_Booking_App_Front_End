@@ -1,0 +1,12 @@
+.stylist-cards{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; 
+    .stylist {
+        width: calc(100% / 7 - 20px);
+        img{
+            height: 100px
+        }
+    }
+    margin-bottom: 20px;
+}

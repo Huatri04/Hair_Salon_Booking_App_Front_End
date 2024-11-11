@@ -1,7 +1,8 @@
 .layout{
     width: 100vw;
     height: 100vh;
-   
+    overflow-x: hidden; /* This will hide the scrollbar */
+display: inline;
 }
 .header_container{
     background-color: white;
@@ -33,12 +34,11 @@ width: 15%;
 }
 
 .content_container{
+    width: 100%;
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-}
-.footer{
-
-    background-color: black;
-    color: white;
+    background-color: whitesmoke;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 20px;
+    min-height: 91.5vh;
 }

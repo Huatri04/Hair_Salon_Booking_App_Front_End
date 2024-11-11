@@ -1,0 +1,17 @@
+.statis_container{
+    height: 10%;
+}
+.list_item_container{
+    height: 70%;
+    display: flex;
+    justify-content: space-around;
+}
+.list_container{
+    width: 40%;
+}
+.content_loyal{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 91vh;
+}

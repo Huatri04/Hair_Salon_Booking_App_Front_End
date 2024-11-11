@@ -7,6 +7,11 @@ import About from "./pages/About/index.jsx";
 import Contact from "./pages/Contact/index.jsx";
 import Default_template_logged_in from "./components/default_template_logged_in/index.jsx";
 import MyProfile from "./pages/MyProfile/index.jsx";
+import HistoryServices from "./pages/HistoryServices/index.jsx";
+import LoyalPoint from "./pages/LoyalPoints/index.jsx";
+import BookingAppointment from "./pages/Booking/index.jsx";
+import SoftwareSupportApplication from "./components/SoftwareSupportApplication/index.jsx";
+import BookingService from "./pages/BookingService/indes.jsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -25,7 +30,6 @@ function App() {
         },
       ],
     },
-
     {
       path: "loginCustomer",
       element: <LoginCustomer />,
@@ -39,6 +43,18 @@ function App() {
       element: <Default_template_logged_in />,
       children: [
         {
+          path: "softwareSupportApplication",
+          element: <SoftwareSupportApplication />,
+        },
+        {
+          path: "booking",
+          element: <BookingAppointment />,
+        },
+        {
+          path: "bookingService",
+          element: <BookingService />,
+        },
+        {
           path: "about",
           element: <About />,
         },
@@ -49,6 +65,14 @@ function App() {
         {
           path: "myProfile",
           element: <MyProfile />,
+        },
+        {
+          path: "historyOfServices",
+          element: <HistoryServices />,
+        },
+        {
+          path: "loyalPoints",
+          element: <LoyalPoint />,
         },
       ],
     },
