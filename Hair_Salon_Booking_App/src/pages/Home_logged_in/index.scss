@@ -1,0 +1,32 @@
+.product_list{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    
+    .product {
+        width: calc(100% / 4 - 20px);
+        background-color: white;
+        border-radius: 8px;
+        padding-bottom: 20px;
+        img{
+            width: 100%;
+            border-top-left-radius: 8px;
+            border-top-right-radius:8px ;
+        }
+        h3{ 
+            padding-top: 10px;
+            padding-left: 10px;
+            padding-bottom: 10px;
+        }
+        p{
+            padding-left: 10px;
+         padding-bottom: 5px;
+        }
+
+        center{
+            padding-top: 10px;
+        }
+    
+    }
+}
+

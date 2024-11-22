@@ -1,0 +1,15 @@
+.content_contact{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.text_contact{
+    height: 40%;
+    margin-bottom: 10vh;
+}
+.container_img_contact{
+    height: 40%;
+    display: flex;
+    justify-content: space-between;
+}
+

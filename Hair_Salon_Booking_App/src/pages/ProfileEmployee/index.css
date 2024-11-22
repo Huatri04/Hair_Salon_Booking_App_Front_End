@@ -1,0 +1,8 @@
+.profile_container{
+    width: 50%;
+    margin: 0 auto;
+}
+.form_fields_container{
+    display: flex;
+    justify-content: space-around;
+}

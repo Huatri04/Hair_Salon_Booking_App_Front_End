@@ -1,0 +1,12 @@
+.input-container{
+    display: flex;
+justify-content: space-between;
+height: 22vh;
+}
+.form_booking_container{
+    margin-top: 2vh;
+}
+.foot-container{
+    display: flex;
+    justify-content: space-between;
+}

@@ -1,0 +1,44 @@
+.layout{
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden; /* This will hide the scrollbar */
+display: inline;
+}
+.header_container{
+    background-color: white;
+    display: flex;
+    padding: 0;
+    justify-content: space-between;
+}
+.menu_container{
+width: 65%;
+display: flex;
+justify-content: center;
+}
+.logo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10%;
+}
+.image{
+    width: 40%;
+    height: 80%;
+    border-radius: 50%;
+}
+.menu_options{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+width: 15%;
+}
+
+.content_container{
+    width: 100%;
+    display: flex;
+    background-color: whitesmoke;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 20px;
+    min-height: 91.5vh;
+}
