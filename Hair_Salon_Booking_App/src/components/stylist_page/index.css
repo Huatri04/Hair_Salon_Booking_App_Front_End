@@ -1,0 +1,11 @@
+.layout_container {
+    width: 100vw;
+    height: 100vh;
+  }
+  .header_container {
+    display: flex;
+    justify-content: end;
+  }
+  .content_container {
+    height: 100%;
+  }

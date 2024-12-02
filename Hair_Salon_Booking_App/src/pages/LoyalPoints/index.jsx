@@ -52,12 +52,9 @@ function LoyalPoint() {
   };
 
   useEffect(() => {
-    fetchCode(currentPage, pageSize); // Fetch data on page load
-  }, [currentPage, pageSize]);
-  useEffect(() => {
     fetchData();
     fetchCode(currentPage, pageSize);
-  }, []);
+  }, [currentPage, pageSize]);
 
   return (
     <div className="content_loyal">

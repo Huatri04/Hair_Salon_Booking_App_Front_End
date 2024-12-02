@@ -36,11 +36,20 @@ const Admin = () => {
 
   const items = [
     getItem("Home", "adminPage"),
+    getItem("Tài khoản của tôi", "adminPage/employee_account"),
+    getItem("Quản lý lịch sử danh sách lương", "adminPage/listhistorysalary"),
+
     getItem("Quản lý dịch vụ", "adminPage/services"),
     getItem("Quản lí nhân viên ", "adminPage/employees"),
-    getItem("Hỗ trợ phần mềm (nhân viên) ", "SoftwareSupportOrderManagement"),
-    getItem("Quản lí khách hàng  ", "CustomerAccountManagememnt"),
-    getItem("Hỗ trợ phần mềm (khách hàng) ", "SupportApplicationOfCustomer"),
+    getItem("Hỗ trợ phần mềm (nhân viên) ", "adminPage/listSoftWareSupport"),
+    getItem("Quản lí khách hàng  ", "adminPage/customerAccount"),
+    getItem("Quản lí khách hàng bị cấm  ", "adminPage/bannedCustomerAccount"),
+    getItem("Quản lí nhân viên bị xóa  ", "adminPage/bannedEmployeeAccount"),
+
+    getItem(
+      "Hỗ trợ phần mềm (khách hàng) ",
+      "adminPage/listSoftWareSupportCustomer"
+    ),
     getItemLogOut("Đăng xuất", "loginEmployee"),
   ];
 

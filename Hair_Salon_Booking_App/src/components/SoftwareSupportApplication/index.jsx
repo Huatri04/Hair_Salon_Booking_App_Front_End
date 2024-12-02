@@ -6,7 +6,6 @@ import "./index.css";
 import { PlusOutlined } from "@ant-design/icons";
 import { Image, Upload } from "antd";
 import uploadFile from "../../utils/file";
-import { render } from "@testing-library/react";
 
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {
@@ -108,16 +107,21 @@ function SoftwareSupportApplication() {
   }, []);
   const handleOk = () => {
     form.submit(); // Trigger form submission
-    setShowModal(false);
   };
 
   const handleFinish = async (values) => {
-    if (fileList.length > 0) {
-      const file = fileList[0];
-      console.log(file);
-      const url = await uploadFile(file.originFileObj);
-      console.log(url);
-      values.img = url;
+    setShowModal(false);
+
+    try {
+      if (fileList.length > 0) {
+        const file = fileList[0];
+        console.log(file);
+        const url = await uploadFile(file.originFileObj);
+        values.img = url; // Set the image URL to values
+      }
+    } catch (uploadError) {
+      toast.error("File upload failed: " + uploadError.message);
+      return; // Exit the function to prevent API call if upload fails
     }
     try {
       setLoading(true);
@@ -156,11 +160,26 @@ function SoftwareSupportApplication() {
             label="Description:"
             name="description"
             labelCol={{ span: 24 }}
+            rules={[
+              {
+                required: true,
+                message: "Please input Description!",
+              },
+            ]}
           >
             <TextArea rows={4} placeholder="Enter your text here" />
           </Form.Item>
 
-          <Form.Item label="Image" name="img">
+          <Form.Item
+            label="Image"
+            name="img"
+            rules={[
+              {
+                required: true,
+                message: "Please input Image!",
+              },
+            ]}
+          >
             <Upload
               action="https://api.allorigins.win/get?url=https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
               listType="picture-card"
@@ -171,20 +190,20 @@ function SoftwareSupportApplication() {
               {fileList.length >= 8 ? null : uploadButton}
             </Upload>
           </Form.Item>
-          {previewImage && (
-            <Image
-              wrapperStyle={{
-                display: "none",
-              }}
-              preview={{
-                visible: previewOpen,
-                onVisibleChange: (visible) => setPreviewOpen(visible),
-                afterOpenChange: (visible) => !visible && setPreviewImage(""),
-              }}
-              src={previewImage}
-            />
-          )}
         </Form>
+        {previewImage && (
+          <Image
+            wrapperStyle={{
+              display: "none",
+            }}
+            preview={{
+              visible: previewOpen,
+              onVisibleChange: (visible) => setPreviewOpen(visible),
+              afterOpenChange: (visible) => !visible && setPreviewImage(""),
+            }}
+            src={previewImage}
+          />
+        )}
       </Modal>
 
       <Table dataSource={data} columns={columns} pagination={false} />

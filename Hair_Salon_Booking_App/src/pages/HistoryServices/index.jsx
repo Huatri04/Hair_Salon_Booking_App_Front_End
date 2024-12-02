@@ -1,4 +1,4 @@
-import { Button, Form, Input, Rate, Table } from "antd";
+import { Button, Form, Input, Popconfirm, Rate, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import api from "../../config/axios";
 import { toast } from "react-toastify";
@@ -15,6 +15,16 @@ function HistoryServices() {
     try {
       const response = await api.get("appointment");
       setData(response.data);
+    } catch (err) {
+      console.log(err.response.data);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`appointment/customerDelete/${id}`);
+      toast.success("Appointment deleted successfully");
+      fetchData();
     } catch (err) {
       toast.error(err.response.data);
     }
@@ -60,6 +70,35 @@ function HistoryServices() {
       title: "stylist",
       dataIndex: "stylist",
       key: "stylist",
+    },
+    {
+      title: "Trạng thái",
+      dataIndex: "completed",
+      key: "completed",
+      render: (completed, record) =>
+        record.deleted
+          ? "Đã hủy"
+          : completed
+          ? "Đã thanh toán"
+          : "Chờ thanh toán",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (text, record) =>
+        !record.completed &&
+        !record.delete && (
+          <Popconfirm
+            title="Are you sure you want to delete this appointment?"
+            onConfirm={() => handleDelete(record.id)}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button type="primary" danger>
+              Delete
+            </Button>
+          </Popconfirm>
+        ),
     },
   ];
 

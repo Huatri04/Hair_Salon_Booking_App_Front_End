@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./index.css";
 import { Descriptions, Layout, Menu, Modal, theme } from "antd";
 import { Link, Outlet, Route, Routes } from "react-router-dom";
@@ -7,6 +7,7 @@ import { logout } from "../../redux/features/userSlice";
 import { useSelector } from "react-redux";
 import Home_admin from "../Home_employee";
 const { Header, Sider, Content } = Layout;
+
 const Manager_page = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -30,18 +31,24 @@ const Manager_page = () => {
   const items = [
     getItem("Trang chủ", "manager_page"),
     getItem("Tài khoản của tôi", "manager_page/employee_account"),
-    getItem("Quản lý Stylist", "manager_page/stylists"),
-    getItem("Quản lý ca làm việc"),
-    getItem("Quản lý voucher", "voucherProgram"),
-    getItem("Quản lý lương cơ bản"),
-    getItem("Quản lý Stylist"),
-    getItem("Quản lý giao dịch", "transactionManagement"),
-    getItem("Hỗ trợ phần mềm"),
+    getItem("Quản lý Stylist", "manager_page/stylistManagement"),
+    getItem("Quản lý ca làm việc", "manager_page/shiftInWeek"),
+    getItem("Danh sách ca làm việc( Nhân viên)", "manager_page/shiftEmployee"),
+    getItem("Quản lý những người chưa đăng kí ca", "manager_page/shiftFree"),
+    getItem("Quản lý những người đăng kí ca", "manager_page/shiftAvailable"),
+    getItem("Quản lý giao dịch", "manager_page/transactionManagement"),
+    getItem("Quản lý feedbacks", "manager_page/feedbackManagement"),
+    getItem("Quản lý basic salaries", "manager_page/manage_basic_salary"),
+    getItem("Quản lý salary months", "manager_page/salaryMonths"),
+    getItem("Quản lý voucher programs", "manager_page/voucherProgram"),
+    getItem("Dash Board", "manager_page/dash_board"),
+    getItem("Hỗ trợ phần mềm", "manager_page/softwareSupport"),
     getItem("Đăng xuất", "loginEmployee"),
   ];
   return (
     <Layout className="layout_container">
       <Sider
+        width={"280px"}
         breakpoint="lg"
         collapsedWidth="0"
         onBreakpoint={(broken) => {

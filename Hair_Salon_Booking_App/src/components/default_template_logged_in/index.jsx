@@ -71,6 +71,7 @@ function Default_template_logged_in() {
     onClose();
     if (e.key === "") {
       dispatch(logout());
+      dispatch(resetCart());
     }
   }
 

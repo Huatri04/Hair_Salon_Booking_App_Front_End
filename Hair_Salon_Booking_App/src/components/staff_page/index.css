@@ -1,0 +1,27 @@
+.layout_container{
+    width: 100vw;
+    height: 120vh;
+}
+.header_container{
+    display: flex;
+    justify-content: end;
+}
+.content_container{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+.logo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10%;
+}
+.image{
+    width: 40%;
+    height: 80%;
+    border-radius: 50%;
+}
+.description_container{
+    width: 70%;
+}

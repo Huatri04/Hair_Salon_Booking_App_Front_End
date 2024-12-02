@@ -2,7 +2,6 @@ import {
   Button,
   Form,
   Input,
-  InputNumber,
   Modal,
   Pagination,
   Popconfirm,
@@ -13,9 +12,6 @@ import { useForm } from "antd/es/form/Form";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import api from "../../config/axios";
-import uploadFile from "../../utils/file";
-import { PlusOutlined } from "@ant-design/icons";
-import { Image, Upload } from "antd";
 
 function EmployeeManagement() {
   const [employees, setEmployees] = useState([]);
@@ -31,7 +27,7 @@ function EmployeeManagement() {
     try {
       const response = await api.get(`employee?page=${page - 1}&size=${size}`);
       setEmployees(response.data.content);
-      setTotal(response.data.totalElement); // Set total items for pagination
+      setTotal(response.data.totalElements); // Set total items for pagination
     } catch (err) {
       toast.error(err.response.data);
     }
@@ -54,7 +50,8 @@ function EmployeeManagement() {
       const response = await api.post("/registerEmployee", values); //lỗi
       // ==> thành công
       toast("Sucessfully create new Employee");
-      fethEmployee();
+      form.resetFields();
+      fethEmployee(currentPage, pageSize);
       setopenModal(false);
       setSubmitting(false);
       //clear dữ liệu cũ
@@ -94,7 +91,6 @@ function EmployeeManagement() {
   // []: dependency array
   //feth data 1 lần khi mà load dữ liệu lên
   useEffect(() => {
-    form.setFieldValue("role", "");
     fethEmployee(currentPage, pageSize);
   }, [currentPage, pageSize]);
 
@@ -177,7 +173,7 @@ function EmployeeManagement() {
         open={openModal}
         onCancel={handleCloseModal}
       >
-        <Form onFinish={handlecSubmitEmployee} form={form}>
+        <Form form={form} onFinish={handlecSubmitEmployee}>
           <Form.Item
             label="Username "
             name="username"

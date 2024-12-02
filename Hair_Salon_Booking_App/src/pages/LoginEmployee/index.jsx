@@ -5,7 +5,7 @@ import api from "../../config/axios.js";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/features/userSlice.js";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 function LoginEmployee() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -18,6 +18,9 @@ function LoginEmployee() {
       localStorage.setItem("token", token);
       if (role === "Admin") navigate("/adminPage");
       if (role === "Manager") navigate("/manager_page");
+      if (role === "Staff") navigate("/staff_page");
+      if (role === "Stylist") navigate("/stylistPage");
+
       toast.success("Log in thành công");
     } catch (err) {
       toast.error(err.response.data);

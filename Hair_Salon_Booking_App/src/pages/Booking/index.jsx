@@ -20,23 +20,20 @@ import moment from "moment";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { resetCart } from "../../redux/features/cartSlide";
-
+const DEFAULT_IMAGE_URL =
+  "https://firebasestorage.googleapis.com/v0/b/hair-d1f00.appspot.com/o/theme-park-177148_960_720%20(1).jpg?alt=media&token=87cd9707-4868-4b89-bd7d-141fbebe434d"; // Set your default image URL here
 const StylistCard = ({ id, level, name, image, selected, onSelect, fee }) => (
   <Card
     className="stylist"
-    cover={
-      <img
-        alt={name}
-        src="https://firebasestorage.googleapis.com/v0/b/hair-d1f00.appspot.com/o/theme-park-177148_960_720%20(1).jpg?alt=media&token=87cd9707-4868-4b89-bd7d-141fbebe434d"
-      />
-    }
+    cover={<img alt={name} src={image || DEFAULT_IMAGE_URL} />}
     onClick={() => onSelect(id)} // Make the whole card clickable
     style={{
       borderColor: selected ? "green" : "default",
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
-      height: "200px", // Set fixed height
+      width: "180px",
+      height: "220px", // Set fixed height
     }}
   >
     <Card.Meta
@@ -78,7 +75,12 @@ function BookingAppointment() {
 
   const [total, setTotal] = useState(0); // Total items for pagination
   const [currentPage, setCurrentPage] = useState(1); // Current page
-  const [pageSize, setPageSize] = useState(2); // Page size
+  const [pageSize, setPageSize] = useState(1); // Page size
+
+  const [total1, setTotal1] = useState(0); // Total items for pagination
+  const [currentPage1, setCurrentPage1] = useState(1); // Current page
+  const [pageSize1, setPageSize1] = useState(5); // Page size
+
   const navigate = useNavigate();
   const [fixedTimeslots, setFixedTimeslots] = useState([
     { time: "07:00", booked: true },
@@ -113,7 +115,7 @@ function BookingAppointment() {
     }
   }, [stylistID]);
 
-  const fetchCode = async (page = 1, size = 2) => {
+  const fetchCode = async (page = 1, size = 1) => {
     try {
       const response = await api.get(
         `discountCode?page=${page - 1}&size=${size}`
@@ -152,8 +154,11 @@ function BookingAppointment() {
   }, [date]);
   const fetchStylists = async () => {
     try {
-      const response = await api.get("stylist?page=0&size=10");
+      const response = await api.get(
+        `stylist?page=${currentPage1 - 1}&size=${pageSize1}`
+      );
       setStylists(response.data.content);
+      setTotal1(response.data.totalElement); // Set total items for pagination
       console.log(response.data.content); // Log the content to inspect
     } catch (err) {
       toast.error(err.response.data);
@@ -237,6 +242,15 @@ function BookingAppointment() {
   useEffect(() => {
     fetchCode(currentPage, pageSize); // Fetch data on page load
   }, [currentPage, pageSize]);
+  useEffect(() => {
+    fetchStylists();
+  }, [currentPage1, pageSize1]);
+
+  const handleTableChange1 = (page, pageSize) => {
+    setCurrentPage1(page); // Update current page
+    setPageSize1(pageSize); // Update page size
+  };
+
   const handleTableChange = (page, pageSize) => {
     setCurrentPage(page); // Update current page
     setPageSize(pageSize); // Update page size
@@ -282,20 +296,30 @@ function BookingAppointment() {
           />
         </Form.Item>
         {showStylists && (
-          <div className="stylist-cards">
-            {stylists.map((stylist) => (
-              <StylistCard
-                key={stylist.id}
-                id={stylist.id}
-                level={stylist.stylistLevel}
-                name={stylist.name}
-                image={stylist.image}
-                fee={stylist.stylistSelectionFee}
-                selected={stylist.id === selectedStylist}
-                onSelect={handleSelect}
+          <>
+            <div className="stylist-cards">
+              {stylists.map((stylist) => (
+                <StylistCard
+                  key={stylist.id}
+                  id={stylist.id}
+                  level={stylist.stylistLevel}
+                  name={stylist.name}
+                  image={stylist.img}
+                  fee={stylist.stylistSelectionFee}
+                  selected={stylist.id === selectedStylist}
+                  onSelect={handleSelect}
+                />
+              ))}
+            </div>
+            <div className="page_container">
+              <Pagination
+                current={currentPage1}
+                pageSize={5}
+                total={total1}
+                onChange={handleTableChange1} // Handle pagination change
               />
-            ))}
-          </div>
+            </div>
+          </>
         )}
         <Form.Item name="date" label="Choose Date" labelCol={{ span: 24 }}>
           <Select
@@ -386,7 +410,7 @@ function BookingAppointment() {
           <div className="page_container">
             <Pagination
               current={currentPage}
-              pageSize={2}
+              pageSize={1}
               total={total}
               onChange={handleTableChange} // Handle pagination change
             />

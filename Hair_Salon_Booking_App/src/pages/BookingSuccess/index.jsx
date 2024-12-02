@@ -28,14 +28,6 @@ function BookingSuccess() {
           >
             Quay trở về trang Home
           </Button>,
-          <Button
-            key="buy"
-            onClick={() => {
-              navigate("/logged_in/booking");
-            }}
-          >
-            Đặt lại lịch hẹn
-          </Button>,
         ]}
       />
     </div>
